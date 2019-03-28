@@ -1,0 +1,30 @@
+{
+    "name": "clickonmedia/frameio",
+    "type": "library",
+    "description": "",
+    "keywords": ["frameio php client"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "CLICKON Media",
+            "email": "technical.services@clickon.co"
+        }
+    ],
+    "require": {
+	"guzzlehttp/guzzle": "^6.3"
+    },
+    "require-dev": {
+        "guzzlehttp/guzzle": "^6.3"
+    },
+    "autoload": {
+        "files": ["src/include.php"],
+        "psr-0": {
+            "Frameio\\": "src/"
+        }
+    },
+    "extra": {
+       "branch-alias": {
+       "dev-master": "1.0-dev"
+	}
+    }
+}
