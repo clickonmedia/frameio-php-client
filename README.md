@@ -10,8 +10,11 @@ composer require clickonmedia/frameio-php-client
 ## Basic Usage
 
 ```
+require __DIR__ . '/vendor/autoload.php';
 use Frameio\FrameIOClient;
+
 $frameIO =  new FrameIOClient("TOKEN");
+echo $frameIO->getHost();
 ```
 
 
