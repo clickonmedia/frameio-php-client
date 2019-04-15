@@ -4,23 +4,29 @@ run the following command to install the package
 
 composer require clickonmedia/frameio:dev-master
 
---------- Config FrameIOClient -------
+--------- Basic Usage -------
 
     use Frameio\FrameIOClient;
 
     $frameIO =  new FrameIOClient("TOKEN");
 
--------- all function in $frameIO variable---------
+
+--------- Run tests -------
+
+	composer run-script test
+
+
+-------- All available functions ---------
 
 --------------------------------------------------------------
     Get user profile
 
-    $frameIo->getProfile()
+    $frameIO->getProfile()
 --------------------------------------------------------------
     Gets teams for a user
     NOTE: This currently returns an error because of a bug in Frame.io API
 
-    $frameIo->getTeams()
+    $frameIO->getTeams()
 --------------------------------------------------------------
     Get user membership for team.
 
@@ -28,7 +34,7 @@ composer require clickonmedia/frameio:dev-master
 
     PARAM : team_id (Required)
 
-    $frameIo->getTeamMembership( $teamId )
+    $frameIO->getTeamMembership( $teamId )
 --------------------------------------------------------------
     Get user membership for team.
 
@@ -38,39 +44,39 @@ composer require clickonmedia/frameio:dev-master
     PARAM : user_id (Required)
     PARAM : role (Required)
 
-    $frameIo->addTeamMembership( $teamId, $userId, $role )
+    $frameIO->addTeamMembership( $teamId, $userId, $role )
 ---------------------------------------------------------------
     Get user membership for team.
 
     PARAM : name (Default Value: Current Time)
     PARAM : private (Default Value: false)
 
-    $frameIo->createProject( $name , $private )
+    $frameIO->createProject( $name , $private )
 ---------------------------------------------------------------
     Get project by id
 
     PARAM : project_id (Required)
 
-    $frameIo->getProjectById( $projectId )
+    $frameIO->getProjectById( $projectId )
 ---------------------------------------------------------------
     Delete project by id
 
     PARAM : project_id (Required)
 
-    $frameIo->deleteProjectById( $projectId )
+    $frameIO->deleteProjectById( $projectId )
 ---------------------------------------------------------------
     Get user membership for project
 
     PARAM : project_id (Required)
 
-    $frameIo->getUserMembershipForProject( $projectId )
+    $frameIO->getUserMembershipForProject( $projectId )
 ---------------------------------------------------------------
     Add a collaborator to a team.
 
     PARAM : project_id (Required)
     PARAM : email_of_user (Required )
 
-    $frameIo->addCollaboratorToTeam( $projectId, $email )
+    $frameIO->addCollaboratorToTeam( $projectId, $email )
 ---------------------------------------------------------------
     Create an asset
 
@@ -83,7 +89,7 @@ composer require clickonmedia/frameio:dev-master
     PARAM :  fileUrl  (Default Value: "")
     PARAM :  properties  (Default Value: []/key value pair array)
 
-    $frameIo->createAsset( $rootAssetId, $name, $filesize, $description, $type, $filetype, $fileUrl, $properties)
+    $frameIO->createAsset( $rootAssetId, $name, $filesize, $description, $type, $filetype, $fileUrl, $properties)
 
 ---------------------------------------------------------------
     Get assets
@@ -91,13 +97,13 @@ composer require clickonmedia/frameio:dev-master
     PARAM :  parent_asset_id (Required)
     PARAM :  type  (Default Value: "file")
 
-    $frameIo->getAssets( $rootAssetId, $type )
+    $frameIO->getAssets( $rootAssetId, $type )
 ---------------------------------------------------------------
     Get an Asset by ID
 
     PARAM :  asset_id (Required)
 
-    $frameIo->getAssetById( $assetId )
+    $frameIO->getAssetById( $assetId )
 
 ---------------------------------------------------------------
     Update an Asset
@@ -106,21 +112,21 @@ composer require clickonmedia/frameio:dev-master
     PARAM :  name (Default Value:"")
     PARAM :  properties  (Default Value: []/key value pair array)
 
-    $frameIo->updateAssetById( $assetId, $name, $description, $properties )
+    $frameIO->updateAssetById( $assetId, $name, $description, $properties )
 
 ---------------------------------------------------------------
     Delete an Asset By ID
 
     PARAM :  asset_id (Required)
 
-    $frameIo->deleteAssetById( $assetId )
+    $frameIO->deleteAssetById( $assetId )
 ---------------------------------------------------------------
     Add a version to an Asset
 
     PARAM :  asset_id (Required)
     PARAM :  next_asset_id (Required)
 
-    $frameIo->addVersionToAsset( $assetId, $nextAssetId )
+    $frameIO->addVersionToAsset( $assetId, $nextAssetId )
 ---------------------------------------------------------------
     Create a Comment
 
@@ -132,38 +138,38 @@ composer require clickonmedia/frameio:dev-master
     PARAM :  pitch (Default Value : "")
     PARAM :  yaw (Default Value : "")
 
-    $frameIo->createComment( $assetId, $text, $annotation, $timestamp, $page, $pitch, $yaw)
+    $frameIO->createComment( $assetId, $text, $annotation, $timestamp, $page, $pitch, $yaw)
 ---------------------------------------------------------------
     Get Comments By Asset Id
 
     PARAM :  asset_id (Required)
 
-    $frameIo->getComments( $assetId )
+    $frameIO->getComments( $assetId )
 ---------------------------------------------------------------
     Get Comment By Comment Id
 
     PARAM :  comment_id (Required)
 
-    $frameIo->getCommentById( $commentId )
+    $frameIO->getCommentById( $commentId )
 ---------------------------------------------------------------
     Update a Comment
 
     PARAM :  comment_id (Required)
     PARAM :  text (Default Value : "")
 
-    $frameIo->updateComment( $commentId, $text )
+    $frameIO->updateComment( $commentId, $text )
 ---------------------------------------------------------------
     Delete a Comment
 
     PARAM :  comment_id (Required)
 
-    $frameIo->deleteCommentById ( $commentId )
+    $frameIO->deleteCommentById ( $commentId )
 ---------------------------------------------------------------
     Get Review Links for Project
 
     PARAM :  project_id (Required)
 
-    $frameIo->getReviewLinks( $projectId )
+    $frameIO->getReviewLinks( $projectId )
 ---------------------------------------------------------------
 
     Create a Review Link
@@ -177,7 +183,7 @@ composer require clickonmedia/frameio:dev-master
     PARAM :  password  (Default Value : "")
     PARAM :  expires_at  (Default Value : "")
 
-    $frameIo->createReviewLink( $projectId, $name, $allowApprovals ,$currentVersionOnly, $enableDownloading, $requiresPassphrase, $password , $expiresAt )
+    $frameIO->createReviewLink( $projectId, $name, $allowApprovals ,$currentVersionOnly, $enableDownloading, $requiresPassphrase, $password , $expiresAt )
 
 ---------------------------------------------------------------
     Update a Review Link
@@ -191,26 +197,26 @@ composer require clickonmedia/frameio:dev-master
     PARAM :  password  (Default Value : "")
     PARAM :  expires_at  (Default Value : "")
 
-    $frameIo->UpdateReviewLink( $reviewLinkId, $name, $allowApprovals ,$currentVersionOnly, $enableDownloading, $requiresPassphrase, $password , $expiresAt )
+    $frameIO->UpdateReviewLink( $reviewLinkId, $name, $allowApprovals ,$currentVersionOnly, $enableDownloading, $requiresPassphrase, $password , $expiresAt )
 ---------------------------------------------------------------
     Get a Review Link
 
     PARAM :  reviewLinkId (Required)
 
-    $frameIo->getReviewLink( $link_id )
+    $frameIO->getReviewLink( $link_id )
 ---------------------------------------------------------------
     Get Review Link Items
 
     PARAM :  reviewLinkId (Required)
 
-    $frameIo->getReviewLinkItems( $link_id )
+    $frameIO->getReviewLinkItems( $link_id )
 ---------------------------------------------------------------
     Add Assets to a Review Link
 
     PARAM :  reviewLinkId (Required)
     PARAM :  assetIds (Required, Array of ids)
 
-    $frameIo->addAssetsToReviewLink( $reviewLinkId, $assetIds )
+    $frameIO->addAssetsToReviewLink( $reviewLinkId, $assetIds )
 ---------------------------------------------------------------
     Search for Assets
 
@@ -218,7 +224,7 @@ composer require clickonmedia/frameio:dev-master
     PARAM :  teamId (Default Value : "")
     PARAM :  accountId (Default Value : "")
 
-    $frameIo->getSearchAssets ( $query , $teamId , $accountId )
+    $frameIO->getSearchAssets ( $query , $teamId , $accountId )
 ---------------------------------------------------------------
     Search for Assets (Complex)
 
@@ -227,7 +233,7 @@ composer require clickonmedia/frameio:dev-master
     PARAM :  accountId (Default Value : "")
     PARAM :  filter (Default Value : [], key value pair Array)
 
-    $frameIo->searchAssets ( $query , $teamId , $accountId, $filter )
+    $frameIO->searchAssets ( $query , $teamId , $accountId, $filter )
 ---------------------------------------------------------------
 }
 

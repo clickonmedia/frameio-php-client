@@ -10,8 +10,9 @@
             "email": "technical.services@clickon.co"
         }
     ],
+    "minimum-stability": "dev",
     "require": {
-	"guzzlehttp/guzzle": "^6.3"
+		"guzzlehttp/guzzle": "^6.3"
     },
     "require-dev": {
         "guzzlehttp/guzzle": "^6.3"
@@ -24,7 +25,12 @@
     },
     "extra": {
        "branch-alias": {
-       "dev-master": "1.0-dev"
-	}
+	       "dev-master": "1.0-dev"
+		}
+    },
+    "scripts": {
+        "test": [
+            "@php tests/test.php"
+        ]
     }
 }
