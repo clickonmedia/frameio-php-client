@@ -13,7 +13,7 @@ composer require clickonmedia/frameio:dev-master
 
 --------- Run tests -------
 
-	composer run-script test
+    composer run-script test
 
 
 -------- All available functions ---------
