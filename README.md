@@ -41,8 +41,8 @@ $frameIO->getTeamMembership( $teamId )
 
 Get user membership for a team.
 
-> @param string $teamId Member Role (required)
-> @param string $userId Member Role (required)
+> @param string $teamId Member Role (required)<br />
+> @param string $userId Member Role (required)<br />
 > @param string $role Member Role (required)
 
 ```
