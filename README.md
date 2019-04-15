@@ -7,6 +7,11 @@ composer require clickonmedia/frameio-php-client
 ```
 
 
+## Frame.io API Documentation
+
+https://docs.frame.io/reference
+
+
 ## Basic Usage
 
 ```
@@ -39,7 +44,7 @@ $frameIO->getTeams()
 
 *NOTE: This currently returns an error because of a bug in Frame.io API*
 
-> @param string $teamId Member Role (required)
+> @param string $teamId Team ID (required)
 
 ```
 $frameIO->getTeamMembership( $teamId )
@@ -48,8 +53,8 @@ $frameIO->getTeamMembership( $teamId )
 
 **Add user membership to a team**
 
-> @param string $teamId Member Role (required)<br />
-> @param string $userId Member Role (required)<br />
+> @param string $teamId Team ID (required)<br />
+> @param string $userId User ID (required)<br />
 > @param string $role Member Role (required)
 
 ```
@@ -107,13 +112,13 @@ $frameIO->addCollaboratorToTeam( $projectId, $email )
 **Create an asset**
 
 > @param string $rootAssetId Parent asset ID (required)<br />
-> @param string $name name (required)<br />
-> @param int $filesize filesize (required)<br />
-> @param string $description description (default Value: "")<br />
-> @param string $type type  (default value: "file")<br />
-> @param string $filetype filetype  (default value: "mp4")<br />
-> @param string $fileUrl fileUrl  (default value: "")<br />
-> @param array $properties properties  (default value: []/key value pair array)
+> @param string $name Name (required)<br />
+> @param int $filesize Filesize (required)<br />
+> @param string $description Sescription (default Value: "")<br />
+> @param string $type Type (default value: "file")<br />
+> @param string $filetype Filetype  (default value: "mp4")<br />
+> @param string $fileUrl File URL  (default value: "")<br />
+> @param array $properties Properties  (default value: []/key value pair array)
 
 ```
 $frameIO->createAsset( $rootAssetId, $name, $filesize, $description, $type, $filetype, $fileUrl, $properties)
@@ -173,11 +178,11 @@ $frameIO->addVersionToAsset( $assetId, $nextAssetId )
 **Create a Comment**
 
 > @param string $assetId Asset ID (required)<br />
-> @param string $text text (default value : "")<br />
-> @param string $annotation annotation (default value : "")<br />
-> @param string $timestamp timestamp (default value : "")<br />
+> @param string $text Text (default value : "")<br />
+> @param string $annotation Annotation (default value : "")<br />
+> @param string $timestamp Timestamp (default value : "")<br />
 > @param string $napageme napageme (default value : "")<br />
-> @param string $pitch pitch (default value : "")<br />
+> @param string $pitch Pitch (default value : "")<br />
 > @param string $yaw yaw (default value : "")
 
 ```
@@ -206,7 +211,7 @@ $frameIO->getCommentById( $commentId )
 **Update a Comment**
 
 > @param string $commentId Comment ID (required)<br />
-> @param string $text text (default value : "")
+> @param string $text Comment text (default value : "")
 
 ```
 $frameIO->updateComment( $commentId, $text )
@@ -236,11 +241,11 @@ $frameIO->getReviewLinks( $projectId )
 > @param string $projectId Project ID (required)<br />
 > @param string $name Review link name (required)<br />
 > @param boolean $allowApprovals Allow Approvals (default value : false)<br />
-> @param boolean $currentVersionOnly Project ID (default value : false)<br />
-> @param boolean $enableDownloading Project ID (default value : false)<br />
-> @param boolean $requiresPassphrase Project ID (default value : false)<br />
-> @param string $password Project ID (default value : "")<br />
-> @param string $expiresAt Project ID (default value : "")
+> @param boolean $currentVersionOnly Current Version Only (default value : false)<br />
+> @param boolean $enableDownloading Enable Downloading (default value : false)<br />
+> @param boolean $requiresPassphrase Requires Passphrase (default value : false)<br />
+> @param string $password Password (default value : "")<br />
+> @param string $expiresAt Expires At (default value : "")
 
 
 ```
@@ -257,7 +262,7 @@ $frameIO->createReviewLink( $projectId, $name, $allowApprovals, $currentVersionO
 > @param boolean $enableDownloading Enable Downloading (default value : false)<br />
 > @param boolean $requiresPassphrase Requires Passphrase (default value : false)<br />
 > @param string $password password (default value : "")<br />
-> @param string $expiresAt Allow Approvals (default value : "")
+> @param string $expiresAt Expires At (default value : "")
 
 ```
 $frameIO->UpdateReviewLink( $reviewLinkId, $name, $allowApprovals, $currentVersionOnly, $enableDownloading, $requiresPassphrase, $password, $expiresAt )
@@ -314,9 +319,6 @@ $frameIO->getSearchAssets ( $query, $teamId, $accountId )
 $frameIO->searchAssets ( $query , $teamId , $accountId, $filter )
 ```
 
-## Frame.io API Documentation
-
-https://docs.frame.io/reference
 
 ## Development / Run tests
 
