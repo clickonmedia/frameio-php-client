@@ -30,14 +30,14 @@ $frameIO->getProfile()
 
 Gets teams for a user
 
-NOTE: This currently returns an error because of a bug in Frame.io API
+> NOTE: This currently returns an error because of a bug in Frame.io API
 ```
 $frameIO->getTeams()
 ```
 
 Get user membership for team.
 
-NOTE: This currently returns an error because of a bug in Frame.io API
+*NOTE: This currently returns an error because of a bug in Frame.io API*
 ```
 $frameIO->getTeamMembership( $teamId )
 ```
