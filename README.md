@@ -1,7 +1,8 @@
 # Frame.io PHP Client
 
+Run the following command to install the package:
+
 ```
-run the following command to install the package
 composer require clickonmedia/frameio-php-client
 ```
 
