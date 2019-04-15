@@ -23,7 +23,6 @@
             "Frameio\\": "src/"
         }
     },
-    "version": "1.0",
     "source": {
         "url": "git://github.com/clickonmedia/frameio-php-client.git",
         "type": "git",
