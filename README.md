@@ -13,7 +13,6 @@ use Frameio\FrameIOClient;
 $frameIO =  new FrameIOClient("TOKEN");
 ```
 
-```
 
 ## All available functions
 
