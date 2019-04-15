@@ -13,11 +13,6 @@ use Frameio\FrameIOClient;
 $frameIO =  new FrameIOClient("TOKEN");
 ```
 
-
-## Run tests
-
-```
-composer run-script test
 ```
 
 ## All available functions
@@ -37,26 +32,30 @@ $frameIO->getTeams()
 
 Get user membership for team.
 
-*NOTE: This currently returns an error because of a bug in Frame.io API*
+> NOTE: This currently returns an error because of a bug in Frame.io API
+
+@param string $teamId Member Role (required)
+
 ```
 $frameIO->getTeamMembership( $teamId )
 ```
 
 Get user membership for team.
 
-NOTE: This currently returns an error because of a bug in Frame.io API
+> NOTE: This currently returns an error because of a bug in Frame.io API
 
-PARAM : team_id (Required)
-PARAM : user_id (Required)
-PARAM : role (Required)
+@param string $teamId Member Role (required)
+@param string $userId Member Role (required)
+@param string $role Member Role (required)
+
 ```
 $frameIO->addTeamMembership( $teamId, $userId, $role )
 ```
 
 Get user membership for team.
 
-PARAM : name (Default Value: Current Time)
-PARAM : private (Default Value: false)
+@param string $name Project name (default value: Current Time)
+@param boolean $private Set project as private (required)
 
 ```
 $frameIO->createProject( $name , $private )
@@ -64,7 +63,7 @@ $frameIO->createProject( $name , $private )
 
 Get project by id
 
-PARAM : project_id (Required)
+@param string $projectId Project ID (required)
 
 ```
 $frameIO->getProjectById( $projectId )
@@ -72,7 +71,7 @@ $frameIO->getProjectById( $projectId )
 
 Delete project by id
 
-PARAM : project_id (Required)
+@param string $projectId Project ID (required)
 
 ```
 $frameIO->deleteProjectById( $projectId )
@@ -80,7 +79,7 @@ $frameIO->deleteProjectById( $projectId )
 
 Get user membership for project
 
-PARAM : project_id (Required)
+@param string $projectId Project ID (required)
 
 ```
 $frameIO->getUserMembershipForProject( $projectId )
@@ -88,8 +87,8 @@ $frameIO->getUserMembershipForProject( $projectId )
 
 Add a collaborator to a team.
 
-PARAM : project_id (Required)
-PARAM : email_of_user (Required )
+@param string $projectId Project ID (required)
+@param string $email User email address (required)
 
 ```
 $frameIO->addCollaboratorToTeam( $projectId, $email )
@@ -98,14 +97,14 @@ $frameIO->addCollaboratorToTeam( $projectId, $email )
 
 Create an asset
 
-PARAM :  parent_asset_id (Required)
-PARAM :  name (Required)
-PARAM :  filesize (Required)
-PARAM :  description (Default Value: "")
-PARAM :  type  (Default Value: "file")
-PARAM :  filetype  (Default Value: "mp4")
-PARAM :  fileUrl  (Default Value: "")
-PARAM :  properties  (Default Value: []/key value pair array)
+@param string $rootAssetId Parent asset ID (required)
+@param string $name name (required)
+@param int $filesize filesize (required)
+@param string $description description (default Value: "")
+@param string $type type  (default value: "file")
+@param string $filetype filetype  (default value: "mp4")
+@param string $fileUrl fileUrl  (default value: "")
+@param array $properties properties  (default value: []/key value pair array)
 
 ```
 $frameIO->createAsset( $rootAssetId, $name, $filesize, $description, $type, $filetype, $fileUrl, $properties)
@@ -114,8 +113,8 @@ $frameIO->createAsset( $rootAssetId, $name, $filesize, $description, $type, $fil
 
 Get assets
 
-PARAM :  parent_asset_id (Required)
-PARAM :  type  (Default Value: "file")
+@param string $rootAssetId Parent asset ID (required)
+@param string $name Type (default value: "file")
 
 ```
 $frameIO->getAssets( $rootAssetId, $type )
@@ -123,7 +122,7 @@ $frameIO->getAssets( $rootAssetId, $type )
 
 Get an Asset by ID
 
-PARAM :  asset_id (Required)
+@param string $assetId Asset ID (required)
 
 ```
 $frameIO->getAssetById( $assetId )
@@ -132,9 +131,10 @@ $frameIO->getAssetById( $assetId )
 
 Update an Asset
 
-PARAM :  asset_id (Required)
-PARAM :  name (Default Value:"")
-PARAM :  properties  (Default Value: []/key value pair array)
+@param string $assetId Asset ID (required)
+@param string $name Name (default value: "")
+@param string $description Description (default value: "")
+@param string $properties Properties (default value: []/key value pair array)
 
 ```
 $frameIO->updateAssetById( $assetId, $name, $description, $properties )
@@ -142,7 +142,7 @@ $frameIO->updateAssetById( $assetId, $name, $description, $properties )
 
 Delete an Asset By ID
 
-PARAM :  asset_id (Required)
+@param string $assetId Asset ID (required)
 
 ```
 $frameIO->deleteAssetById( $assetId )
@@ -150,8 +150,8 @@ $frameIO->deleteAssetById( $assetId )
 
 Add a version to an Asset
 
-PARAM :  asset_id (Required)
-PARAM :  next_asset_id (Required)
+@param string $assetId Asset ID (required)
+@param string $nextAssetId Next Asset ID (required)
 
 ```
 $frameIO->addVersionToAsset( $assetId, $nextAssetId )
@@ -159,13 +159,13 @@ $frameIO->addVersionToAsset( $assetId, $nextAssetId )
 
 Create a Comment
 
-PARAM :  asset_id (Required)
-PARAM :  text (Default Value : "")
-PARAM :  annotation (Default Value : "")
-PARAM :  timestamp (Default Value : "")
-PARAM :  napageme (Default Value : "")
-PARAM :  pitch (Default Value : "")
-PARAM :  yaw (Default Value : "")
+@param string $assetId Asset ID (required)
+@param string $text text (default value : "")
+@param string $annotation annotation (default value : "")
+@param string $timestamp timestamp (default value : "")
+@param string $napageme napageme (default value : "")
+@param string $pitch pitch (default value : "")
+@param string $yaw yaw (default value : "")
 
 ```
 $frameIO->createComment( $assetId, $text, $annotation, $timestamp, $page, $pitch, $yaw)
@@ -173,7 +173,7 @@ $frameIO->createComment( $assetId, $text, $annotation, $timestamp, $page, $pitch
 
 Get Comments By Asset Id
 
-PARAM :  asset_id (Required)
+@param string $assetId Asset ID (required)
 
 ```
 $frameIO->getComments( $assetId )
@@ -181,7 +181,7 @@ $frameIO->getComments( $assetId )
 
 Get Comment By Comment Id
 
-PARAM :  comment_id (Required)
+@param string $commentId Comment ID (required)
 
 ```
 $frameIO->getCommentById( $commentId )
@@ -189,8 +189,8 @@ $frameIO->getCommentById( $commentId )
 
 Update a Comment
 
-PARAM :  comment_id (Required)
-PARAM :  text (Default Value : "")
+@param string $commentId Comment ID (required)
+@param string $text text (default value : "")
 
 ```
 $frameIO->updateComment( $commentId, $text )
@@ -198,7 +198,7 @@ $frameIO->updateComment( $commentId, $text )
 
 Delete a Comment
 
-PARAM :  comment_id (Required)
+@param string $commentId Comment ID (required)
 
 ```
 $frameIO->deleteCommentById ( $commentId )
@@ -206,7 +206,7 @@ $frameIO->deleteCommentById ( $commentId )
 
 Get Review Links for Project
 
-PARAM :  project_id (Required)
+@param string $projectId Project ID (required)
 
 ```
 $frameIO->getReviewLinks( $projectId )
@@ -214,37 +214,38 @@ $frameIO->getReviewLinks( $projectId )
 
 Create a Review Link
 
-PARAM :  project_id (Required)
-PARAM :  name (Required)
-PARAM :  allow_approvals (Default Value : false)
-PARAM :  current_version_only (Default Value : false)
-PARAM :  enable_downloading (Default Value : false)
-PARAM :  requires_passphrase (Default Value : false)
-PARAM :  password  (Default Value : "")
-PARAM :  expires_at  (Default Value : "")
+@param string $projectId Project ID (required)
+@param string $name Review link name (required)
+@param boolean $allowApprovals Allow Approvals (default value : false)
+@param boolean $currentVersionOnly Project ID (default value : false)
+@param boolean $enableDownloading Project ID (default value : false)
+@param boolean $requiresPassphrase Project ID (default value : false)
+@param string $password Project ID (default value : "")
+@param string $expiresAt Project ID (default value : "")
+
 
 ```
-$frameIO->createReviewLink( $projectId, $name, $allowApprovals ,$currentVersionOnly, $enableDownloading, $requiresPassphrase, $password , $expiresAt )
+$frameIO->createReviewLink( $projectId, $name, $allowApprovals, $currentVersionOnly, $enableDownloading, $requiresPassphrase, $password, $expiresAt )
 ```
 
 Update a Review Link
 
-PARAM :  reviewLinkId (Required)
-PARAM :  name (Required)
-PARAM :  allow_approvals (Default Value : false)
-PARAM :  current_version_only (Default Value : false)
-PARAM :  enable_downloading (Default Value : false)
-PARAM :  requires_passphrase (Default Value : false)
-PARAM :  password  (Default Value : "")
-PARAM :  expires_at  (Default Value : "")
+@param string $reviewLinkId Review link ID (required)
+@param string $name Review name (required)
+@param boolean $allowApprovals Allow Approvals (default value : false)
+@param boolean $currentVersionOnly Current Version Only (default value : false)
+@param boolean $enableDownloading Enable Downloading (default value : false)
+@param boolean $requiresPassphrase Requires Passphrase (default value : false)
+@param string $password password (default value : "")
+@param string $expiresAt Allow Approvals (default value : "")
 
 ```
-$frameIO->UpdateReviewLink( $reviewLinkId, $name, $allowApprovals ,$currentVersionOnly, $enableDownloading, $requiresPassphrase, $password , $expiresAt )
+$frameIO->UpdateReviewLink( $reviewLinkId, $name, $allowApprovals, $currentVersionOnly, $enableDownloading, $requiresPassphrase, $password, $expiresAt )
 ```
 
 Get a Review Link
 
-PARAM :  reviewLinkId (Required)
+@param string $link_id Review link ID (required)
 
 ```
 $frameIO->getReviewLink( $link_id )
@@ -252,7 +253,7 @@ $frameIO->getReviewLink( $link_id )
 
 Get Review Link Items
 
-PARAM :  reviewLinkId (Required)
+@param string $link_id Review link ID (required)
 
 ```
 $frameIO->getReviewLinkItems( $link_id )
@@ -260,8 +261,8 @@ $frameIO->getReviewLinkItems( $link_id )
 
 Add Assets to a Review Link
 
-PARAM :  reviewLinkId (Required)
-PARAM :  assetIds (Required, Array of ids)
+@param string $reviewLinkId Review link ID (required)
+@param array $assetIds Asset IDs (required, Array of ids)
 
 ```
 $frameIO->addAssetsToReviewLink( $reviewLinkId, $assetIds )
@@ -269,21 +270,30 @@ $frameIO->addAssetsToReviewLink( $reviewLinkId, $assetIds )
 
 Search for Assets
 
-PARAM :  query (Default Value : "")
-PARAM :  teamId (Default Value : "")
-PARAM :  accountId (Default Value : "")
+@param string $query Search query (default value : "")
+@param string $teamId Team ID (default value : "")
+@param string $accountId Account ID (default value : "")
 
 ```
-$frameIO->getSearchAssets ( $query , $teamId , $accountId )
+$frameIO->getSearchAssets ( $query, $teamId, $accountId )
 ```
 
 Search for Assets (Complex)
 
-PARAM :  query (Default Value : "")
-PARAM :  teamId (Default Value : "")
-PARAM :  accountId (Default Value : "")
-PARAM :  filter (Default Value : [], key value pair Array)
+@param string $query Search query (default value : "")
+@param string $teamId Team ID (default value : "")
+@param string $accountId Account ID (default value : "")
+@param string $filter Filter for the query (default value : [], key value pair Array)
 
 ```
 $frameIO->searchAssets ( $query , $teamId , $accountId, $filter )
 ```
+
+## Frame.io API Documentation
+
+https://docs.frame.io/reference
+
+## Run tests
+
+```
+composer run-script test
