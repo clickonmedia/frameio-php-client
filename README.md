@@ -39,13 +39,11 @@ Get user membership for team.
 $frameIO->getTeamMembership( $teamId )
 ```
 
-Get user membership for team.
+Get user membership for a team.
 
-> NOTE: This currently returns an error because of a bug in Frame.io API
-
-@param string $teamId Member Role (required)
-@param string $userId Member Role (required)
-@param string $role Member Role (required)
+> @param string $teamId Member Role (required)
+> @param string $userId Member Role (required)
+> @param string $role Member Role (required)
 
 ```
 $frameIO->addTeamMembership( $teamId, $userId, $role )
