@@ -1,5 +1,5 @@
 {
-    "name": "clickonmedia/frameio",
+    "name": "clickonmedia/frameio-php-client",
     "type": "library",
     "description": "",
     "keywords": ["frameio php client"],
@@ -23,10 +23,11 @@
             "Frameio\\": "src/"
         }
     },
-    "extra": {
-       "branch-alias": {
-	       "dev-master": "1.0-dev"
-		}
+    "version": "1.0",
+    "source": {
+        "url": "git://github.com/clickonmedia/frameio-php-client.git",
+        "type": "git",
+        "reference": "master"
     },
     "scripts": {
         "test": [
