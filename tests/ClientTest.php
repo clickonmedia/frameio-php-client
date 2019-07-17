@@ -11,6 +11,16 @@ $dotenv->load();
 
 final class ClientTest extends TestCase
 {
+    protected $token;
+    protected $client;
+
+    protected function setUp(): void
+    {
+        $this->token = getenv('FRAMEIO_TOKEN');
+        $this->client = new FrameIOClient( $this->token );
+
+    }
+
     public function testDotenvFileExists()
     {
         $this->assertFileExists( __DIR__ . "/../.env" );
@@ -18,26 +28,19 @@ final class ClientTest extends TestCase
 
     public function testTokenExists()
     {
-        $token = getenv('FRAMEIO_TOKEN');
-        $tokenExists = isset( $token ) && !empty( $token );
+        $tokenExists = isset( $this->token ) && !empty( $this->token );
 
         $this->assertTrue( $tokenExists );
     }
 
     public function testFailure()
     {
-        $token = getenv('FRAMEIO_TOKEN');
-        $client = new FrameIOClient( $token );
-
-        $this->assertInstanceOf( FrameIOClient::class, $client );
+        $this->assertInstanceOf( FrameIOClient::class, $this->client );
     }
 
     public function testHasExpectedHost()
     {
-        $token = getenv('FRAMEIO_TOKEN');
-        $client = new FrameIOClient( $token );
-
-        $host = $client->getHost();
+        $host = $this->client->getHost();
         $expectedHost = 'https://api.frame.io/v2';
 
         $this->assertEquals(
@@ -48,9 +51,7 @@ final class ClientTest extends TestCase
 
     public function testAccountExists()
     {
-        $token = getenv('FRAMEIO_TOKEN');
-        $client = new FrameIOClient( $token );
-        $profile = $client->getProfile();
+        $profile = $this->client->getProfile();
 
         $accountIdExists = isset( $profile->account_id ) && !empty( $profile->account_id );
         $emailExists = isset( $profile->email ) && !empty( $profile->email );
@@ -60,21 +61,15 @@ final class ClientTest extends TestCase
 
     public function testTeamExists()
     {
-        $token = getenv('FRAMEIO_TOKEN');
-        $client = new FrameIOClient( $token );
+        $teams = $this->client->getTeams();
 
-        $teams = $client->getTeams();
-
-        $this->assertGreaterThan( 0, sizeof( $teams ) );
+        $this->assertNotEmpty( $teams );
     }
 
     public function testTeamMembership()
     {
-        $token = getenv('FRAMEIO_TOKEN');
-        $client = new FrameIOClient( $token );
-
         $teamId = getenv('FRAMEIO_TEAM');
-        $teamMembership = $client->getTeamMembership( $teamId );
+        $teamMembership = $this->client->getTeamMembership( $teamId );
 
         $isMember = isset( $teamMembership->role ) && !empty( isset( $teamMembership->role ) );
 
