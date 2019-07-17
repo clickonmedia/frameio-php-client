@@ -50,7 +50,6 @@ class FrameIOClient
         return $this->HttpRequest( "GET", "/accounts/{$accountId}/teams" );
     }
 
-
     /*
     |-------------------------------------------------------------------------------
     | Get Teams Team Membership By Team Id
@@ -546,4 +545,3 @@ class FrameIOClient
         }
     }
 }
-

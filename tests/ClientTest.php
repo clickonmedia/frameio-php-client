@@ -57,4 +57,14 @@ final class ClientTest extends TestCase
 
         $this->assertTrue( $accountIdExists && $emailExists );
     }
+
+    public function testTeamExists()
+    {
+        $token = getenv('FRAMEIO_TOKEN');
+        $client = new FrameIOClient( $token );
+
+        $teams = $client->getTeams();
+
+        $this->assertGreaterThan( 0, sizeof( $teams ) );
+    }
 }
