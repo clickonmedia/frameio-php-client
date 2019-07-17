@@ -34,15 +34,12 @@ $frameIO->getProfile()
 
 **Gets teams for a user**
 
-*NOTE: This currently returns an error because of a bug in Frame.io API*
 ```
 $frameIO->getTeams()
 ```
 
 
 **Get user membership for a team**
-
-*NOTE: This currently returns an error because of a bug in Frame.io API*
 
 > @param string $teamId Team ID (required)
 

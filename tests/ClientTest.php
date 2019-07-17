@@ -67,4 +67,17 @@ final class ClientTest extends TestCase
 
         $this->assertGreaterThan( 0, sizeof( $teams ) );
     }
+
+    public function testTeamMembership()
+    {
+        $token = getenv('FRAMEIO_TOKEN');
+        $client = new FrameIOClient( $token );
+
+        $teamId = getenv('FRAMEIO_TEAM');
+        $teamMembership = $client->getTeamMembership( $teamId );
+
+        $isMember = isset( $teamMembership->role ) && !empty( isset( $teamMembership->role ) );
+
+        $this->assertTrue( $isMember );
+    }
 }
