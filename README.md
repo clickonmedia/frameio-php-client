@@ -322,5 +322,9 @@ $frameIO->searchAssets ( $query , $teamId , $accountId, $filter )
 
 ## Development / Run tests
 
+Copy *.env.example* file from the root directory and rename the file to *.env*.
+Fill in the variables in the file based on information from the Frame.io dashboard.
+
 ```
+composer install
 composer run-script test

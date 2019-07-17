@@ -12,16 +12,21 @@
     ],
     "minimum-stability": "dev",
     "require": {
-		"guzzlehttp/guzzle": "^6.3"
+		"guzzlehttp/guzzle": "^6.3",
+        "vlucas/phpdotenv": "^3.4@dev"
     },
     "require-dev": {
-        "guzzlehttp/guzzle": "^6.3"
+        "guzzlehttp/guzzle": "^6.3",
+        "phpunit/phpunit": "^7"
     },
     "autoload": {
         "files": ["src/include.php"],
         "psr-0": {
             "Frameio\\": "src/"
-        }
+        },
+        "classmap": [
+            "src/"
+        ]
     },
     "source": {
         "url": "git://github.com/clickonmedia/frameio-php-client.git",
@@ -30,7 +35,7 @@
     },
     "scripts": {
         "test": [
-            "@php tests/test.php"
+            "./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/ClientTest"
         ]
     }
 }
