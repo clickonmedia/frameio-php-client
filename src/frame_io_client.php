@@ -84,9 +84,10 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Create a project
     */
-    public function createProject( $name = '' , $private = false ) {
+    public function createProject( $name = '', $private = false ) {
 
 		$url = "/projects";
+
 		$payload = array(
 			"name" => $name ? $name : time(),
 			"private" => $private
@@ -173,6 +174,7 @@ class FrameIOClient
     public function createAsset( $rootAssetId, $name, $filesize, $description = "", $type = "file", $filetype = "mp4", $fileUrl = "", $properties = [] ) {
 
         $url = "/assets/" . $rootAssetId . "/children";
+
         $payload = array(
             "name"          =>  $name,
             "description"   =>  $description,
@@ -182,6 +184,7 @@ class FrameIOClient
             "source"        =>  ["url" => $url],
             "properties"    =>  $properties
         );
+
         return $this->HttpRequest( "POST", $url, $payload );
     }
 
@@ -370,6 +373,7 @@ class FrameIOClient
     public function createReviewLink( $projectId, $name, $allowApprovals = false, $currentVersionOnly = false, $enableDownloading = false, $requiresPassphrase = false, $password = '', $expiresAt = '' ) {
 
 	    $url = "/projects/{$projectId}/review_links";
+
         $payload = array(
             "name" => $name,
             "allow_approvals" => $allowApprovals,
