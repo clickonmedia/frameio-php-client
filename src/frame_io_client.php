@@ -14,7 +14,7 @@ class FrameIOClient
 	private $token;
 	private $team;
 
-    public function __construct($token) {
+    public function __construct( $token ) {
         $this->token =  $token;
     }
 
@@ -84,7 +84,7 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Create a project
     */
-    public function createProject($name = '' , $private = false ) {
+    public function createProject( $name = '' , $private = false ) {
 
 		$url = "/projects";
 		$payload = array(
@@ -181,7 +181,6 @@ class FrameIOClient
             "filesize"      =>  $filesize,
             "source"        =>  ["url" => $url],
             "properties"    =>  $properties
-
         );
         return $this->HttpRequest( "POST", $url, $payload );
     }
@@ -276,7 +275,7 @@ class FrameIOClient
     | Description:    Create a Comment
     */
 
-    public function createComment( $assetId, $text = '', $annotation = '', $timestamp = '', $page = '', $pitch = '', $yaw = '') {
+    public function createComment( $assetId, $text = '', $annotation = '', $timestamp = '', $page = '', $pitch = '', $yaw = '' ) {
 
         $url = "/assets/" . $assetId . "/comments";
         $payload = array(
@@ -368,7 +367,7 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Create a Review Link
     */
-    public function createReviewLink( $projectId, $name, $allowApprovals = false ,$currentVersionOnly = fasle, $enableDownloading = false, $requiresPassphrase = false, $password = '', $expiresAt = '' ) {
+    public function createReviewLink( $projectId, $name, $allowApprovals = false, $currentVersionOnly = false, $enableDownloading = false, $requiresPassphrase = false, $password = '', $expiresAt = '' ) {
 
 	    $url = "/projects/{$projectId}/review_links";
         $payload = array(
@@ -390,7 +389,7 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Update a Review Link
     */
-    public function UpdateReviewLink( $reviewLinkId, $name, $allowApprovals = false ,$currentVersionOnly = fasle, $enableDownloading = false, $requiresPassphrase = false, $password = '', $expiresAt = '' ) {
+    public function UpdateReviewLink( $reviewLinkId, $name, $allowApprovals = false, $currentVersionOnly = false, $enableDownloading = false, $requiresPassphrase = false, $password = '', $expiresAt = '' ) {
 
         $url = "/review_links/{$reviewLinkId}";
         $payload = array(
@@ -455,7 +454,7 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Search for Assets
     */
-    public function getSearchAssets ( $query = '' , $teamId = '' , $accountId = '' ) {
+    public function getSearchAssets ( $query = '', $teamId = '', $accountId = '' ) {
 
         $url = "/search/assets?";
         if( $query ) {
@@ -479,7 +478,7 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Search for Assets
     */
-    public function searchAssets ( $query = '' , $teamId = '' , $accountId = '', $filter = [] ) {
+    public function searchAssets ( $query = '', $teamId = '', $accountId = '', $filter = [] ) {
 
         $url = "/search/assets?";
         $payload = array(
