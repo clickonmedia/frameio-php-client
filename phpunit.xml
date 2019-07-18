@@ -1,0 +1,14 @@
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/7.4/phpunit.xsd"
+    colors="true"
+    stopOnError="false"
+    stopOnFailure="false"
+    bootstrap="vendor/autoload.php"
+    verbose="true">
+    <testsuites>
+        <testsuite name="Frame.io PHP Client Test Suite">
+            <directory suffix="Test.php">tests</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

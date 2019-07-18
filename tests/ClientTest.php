@@ -1,7 +1,5 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php'; // Autoload files using Composer autoload
-
 use PHPUnit\Framework\TestCase;
 use Frameio\FrameIOClient;
 
@@ -18,7 +16,12 @@ final class ClientTest extends TestCase
     {
         $this->token = getenv('FRAMEIO_TOKEN');
         $this->client = new FrameIOClient( $this->token );
+    }
 
+    protected function TearDown(): void
+    {
+        unset( $this->token );
+        unset( $this->client );
     }
 
     public function testDotenvFileExists()
@@ -33,7 +36,7 @@ final class ClientTest extends TestCase
         $this->assertTrue( $tokenExists );
     }
 
-    public function testFailure()
+    public function testInstance()
     {
         $this->assertInstanceOf( FrameIOClient::class, $this->client );
     }
@@ -53,10 +56,8 @@ final class ClientTest extends TestCase
     {
         $profile = $this->client->getProfile();
 
-        $accountIdExists = isset( $profile->account_id ) && !empty( $profile->account_id );
-        $emailExists = isset( $profile->email ) && !empty( $profile->email );
-
-        $this->assertTrue( $accountIdExists && $emailExists );
+        $this->assertObjectHasAttribute( 'account_id', $profile );
+        $this->assertObjectHasAttribute( 'email', $profile );
     }
 
     public function testTeamExists()

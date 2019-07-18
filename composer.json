@@ -20,9 +20,8 @@
         "phpunit/phpunit": "^7"
     },
     "autoload": {
-        "files": ["src/include.php"],
-        "psr-0": {
-            "Frameio\\": "src/"
+        "psr-4": {
+            "": "src/"
         },
         "classmap": [
             "src/"
@@ -35,7 +34,7 @@
     },
     "scripts": {
         "test": [
-            "./vendor/bin/phpunit --bootstrap vendor/autoload.php tests/ClientTest"
+            "./vendor/bin/phpunit --colors=always"
         ]
     }
 }
