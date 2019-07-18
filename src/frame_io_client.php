@@ -12,10 +12,11 @@ class FrameIOClient
 {
 	private $host = "https://api.frame.io/v2";
 	private $token;
-	private $team;
+	private $team_id;
 
-    public function __construct( $token ) {
-        $this->token =  $token;
+    public function __construct( $token, $team_id = null ) {
+        $this->token = $token;
+        $this->team_id = $team_id;
     }
 
     /*
@@ -84,14 +85,14 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Create a project
     */
-    public function createProject( $name = '', $private = false ) {
+    public function createProject( $name = 'Project', $private = false ) {
 
-		$url = "/projects";
+		$url = "/teams/" . $this->team_id . "/projects";
 
-		$payload = array(
-			"name" => $name ? $name : time(),
-			"private" => $private
-		);
+        $payload = array(
+            "name" => $name,
+            "private" => $private
+        );
 
         return $this->HttpRequest( "POST", $url, $payload );
     }
