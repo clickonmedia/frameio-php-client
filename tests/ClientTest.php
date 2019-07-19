@@ -24,7 +24,7 @@ final class ClientTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->token = getenv('FRAMEIO_TOKEN');
+        $this->token = getenv( 'FRAMEIO_TOKEN' );
         $this->client = new FrameIOClient( $this->token );
     }
 
@@ -79,11 +79,28 @@ final class ClientTest extends TestCase
 
     public function testTeamMembership()
     {
-        $teamId = getenv('FRAMEIO_TEAM');
+        $teamId = getenv( 'FRAMEIO_TEAM_ID' );
         $teamMembership = $this->client->getTeamMembership( $teamId );
 
         $isMember = isset( $teamMembership->role ) && !empty( isset( $teamMembership->role ) );
 
         $this->assertTrue( $isMember );
+    }
+
+    public function testAssetCreation()
+    {
+        $projectId = getenv( 'FRAMEIO_TEST_PROJECT_ID' );
+
+        $filesize = filesize( __DIR__ . "/example.png" );
+
+        $args = array(
+            'name' => 'Asset name',
+            'filesize' => $filesize,
+            'type' => 'file'
+        );
+
+        $response = $this->client->createAsset( $projectId, $args );
+
+        $this->assertObjectHasAttribute( 'id', $response );
     }
 }

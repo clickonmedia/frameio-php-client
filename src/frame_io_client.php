@@ -169,23 +169,30 @@ class FrameIOClient
     | Create Asset
     |-------------------------------------------------------------------------------
     | Description:    Create an asset
+    |
+    | Parameters:
+    |
+    |    project_id      String      Frame.io Project ID  (required)
+    |
+    |    args            Array       Arguments:
+    |
+    |    name            String      Asset name (required)
+    |    filesize        Integer     File size in bytes (required)
+    |    type            String      File type / "file" or "folder" (required)
+    |
+    |    description     String      Asset description (optional)
+    |    filetype        String      File type, e.g. "video/mp4" (optional)
+    |    source          Array       Asset name / ["url" => $url] (optional)
+    |    properties      Array       Custom key-value data (optional)
     */
 
-    public function createAsset( $rootAssetId, $name, $filesize, $description = "", $type = "file", $filetype = "mp4", $fileUrl = "", $properties = [] ) {
+    public function createAsset( $projectId, $args ) {
 
-        $url = "/assets/{$rootAssetId}/children";
+        $project = $this->getProjectById( $projectId );
 
-        $payload = array(
-            "name"          =>  $name,
-            "description"   =>  $description,
-            "type"          =>  $type,
-            "filetype"      =>  $filetype,
-            "filesize"      =>  $filesize,
-            "source"        =>  ["url" => $url],
-            "properties"    =>  $properties
-        );
+        $url = "/assets/{$project->root_asset_id}/children";
 
-        return $this->HttpRequest( "POST", $url, $payload );
+        return $this->HttpRequest( "POST", $url, $args );
     }
 
     /*
@@ -518,7 +525,7 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    All Http Request Handle Hare
     */
-    public function HttpRequest( $method, $url, $payload = false, $json = false ) {
+    protected function HttpRequest( $method, $url, $payload = false, $json = false ) {
         try {
 
             $url = $this->host . $url;
