@@ -2,8 +2,18 @@
 
 use PHPUnit\Framework\TestCase;
 use Frameio\FrameIOClient;
+use PackageVersions\Versions;
 
-$dotenv = Dotenv\Dotenv::create( dirname(__DIR__, 1) );
+// Determine Dotenv version
+$versionHash = Versions::getVersion( 'vlucas/phpdotenv' );
+$version = intval( $versionHash[1] );
+
+// Initialize Dotenv with syntax based on version
+if ( $version < 3 ) {
+    $dotenv = new Dotenv\Dotenv( dirname(__DIR__, 1) );
+} else {
+    $dotenv = Dotenv\Dotenv::create( dirname(__DIR__, 1) );
+}
 $dotenv->load();
 
 

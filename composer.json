@@ -13,7 +13,8 @@
     "minimum-stability": "stable",
     "require": {
 		"guzzlehttp/guzzle": "^6.3",
-        "vlucas/phpdotenv": "^3.4.0"
+        "vlucas/phpdotenv": ">2.0.0",
+        "ocramius/package-versions": "^1.4"
     },
     "require-dev": {
         "guzzlehttp/guzzle": "^6.3",
@@ -31,6 +32,9 @@
         "url": "git://github.com/clickonmedia/frameio-php-client.git",
         "type": "git",
         "reference": "master"
+    },
+    "config": {
+        "optimize-autoloader": true
     },
     "scripts": {
         "test": [
