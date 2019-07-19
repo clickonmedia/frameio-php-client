@@ -12,11 +12,9 @@ class FrameIOClient
 {
 	private $host = "https://api.frame.io/v2";
 	private $token;
-	private $team_id;
 
-    public function __construct( $token, $team_id = null ) {
+    public function __construct( $token ) {
         $this->token = $token;
-        $this->team_id = $team_id;
     }
 
     /*
@@ -85,9 +83,9 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Create a project
     */
-    public function createProject( $name = 'Project', $private = false ) {
+    public function createProject( $name, $teamId, $private = false ) {
 
-		$url = "/teams/" . $this->team_id . "/projects";
+		$url = "/teams/{$teamId}/projects";
 
         $payload = array(
             "name" => $name,
@@ -105,7 +103,7 @@ class FrameIOClient
     */
     public function getProjectById( $projectId ) {
 
-		$url = "/projects/" . $projectId;
+		$url = "/projects/{$projectId}";
 
         return $this->HttpRequest( "GET", $url );
     }
@@ -118,7 +116,7 @@ class FrameIOClient
     */
     public function deleteProjectById( $projectId ) {
 
-		$url = "/projects/" . $projectId;
+		$url = "/projects/{$projectId}";
 
         return $this->HttpRequest( "DELETE", $url );
     }
@@ -131,7 +129,7 @@ class FrameIOClient
     */
     public function getProjectsByTeamid( $teamId ) {
 
-		$url = "/teams/" . $teamId . "/projects";
+		$url = "/teams/{$teamId}/projects";
 
         return $this->HttpRequest( "GET", $url);
     }
@@ -144,7 +142,7 @@ class FrameIOClient
     */
     public function getUserMembershipForProject( $projectId ) {
 
-        $url = "/projects/" . $projectId . "/membership";
+        $url = "/projects/{$projectId}/membership";
 
         return $this->HttpRequest( "GET", $url);
     }
@@ -157,7 +155,8 @@ class FrameIOClient
     */
     public function addCollaboratorToTeam( $projectId, $email ) {
 
-        $url = "/projects/" . $projectId . "/collaborators";
+        $url = "/projects/{$projectId}/collaborators";
+
         $payload = array(
             "email" => $email
         );
@@ -174,7 +173,7 @@ class FrameIOClient
 
     public function createAsset( $rootAssetId, $name, $filesize, $description = "", $type = "file", $filetype = "mp4", $fileUrl = "", $properties = [] ) {
 
-        $url = "/assets/" . $rootAssetId . "/children";
+        $url = "/assets/{$rootAssetId}/children";
 
         $payload = array(
             "name"          =>  $name,
@@ -198,7 +197,7 @@ class FrameIOClient
 
     public function getAssets( $rootAssetId, $type = 'file' ) {
 
-        $url = "/assets/" . $rootAssetId . "/children";
+        $url = "/assets/{$rootAssetId}/children";
 
         if( $type ) {
            $url .="?type = " . $type;
@@ -216,7 +215,7 @@ class FrameIOClient
 
     public function getAssetById( $assetId ) {
 
-        $url = "/assets/" . $assetId;
+        $url = "/assets/{$assetId}";
 
         return $this->HttpRequest( "GET", $url );
     }
@@ -230,7 +229,7 @@ class FrameIOClient
 
     public function updateAssetById( $assetId, $name = '', $description = '', $properties = [] ) {
 
-        $url = "/assets/" . $assetId;
+        $url = "/assets/{$assetId}";
         $payload = array(
             "name" => $name,
             "description"   =>  $description,
@@ -250,7 +249,7 @@ class FrameIOClient
 
     public function deleteAssetById( $assetId ) {
 
-        $url = "/assets/" . $assetId;
+        $url = "/assets/{$assetId}";
 
         return $this->HttpRequest( "DELETE", $url );
     }
@@ -264,7 +263,8 @@ class FrameIOClient
 
     public function addVersionToAsset( $assetId, $nextAssetId ) {
 
-        $url = "/assets/" . $assetId . "/version";
+        $url = "/assets/{$assetId}/version";
+
         $payload = array(
             "next_asset_id" => $nextAssetId,
         );
@@ -281,7 +281,8 @@ class FrameIOClient
 
     public function createComment( $assetId, $text = '', $annotation = '', $timestamp = '', $page = '', $pitch = '', $yaw = '' ) {
 
-        $url = "/assets/" . $assetId . "/comments";
+        $url = "/assets/{$assetId}/comments";
+
         $payload = array(
             "text"          =>  $text,
             "annotation"    =>  $annotation,
@@ -303,7 +304,7 @@ class FrameIOClient
 
     public function getComments( $assetId ) {
 
-        $url = "/assets/" . $assetId . "/comments";
+        $url = "/assets/{$assetId}/comments";
 
         return $this->HttpRequest( "GET", $url );
     }
@@ -317,7 +318,7 @@ class FrameIOClient
 
     public function getCommentById( $commentId ) {
 
-        $url = "/comments/" . $commentId;
+        $url = "/comments/{$commentId}";
 
         return $this->HttpRequest( "GET", $url );
     }
@@ -331,7 +332,8 @@ class FrameIOClient
 
     public function updateComment( $commentId, $text = '' ) {
 
-         $url = "/comments/" . $commentId;
+        $url = "/comments/{$commentId}";
+
         $payload = array(
             "text" => $text,
         );
@@ -348,7 +350,7 @@ class FrameIOClient
 
     public function deleteCommentById ( $commentId ) {
 
-         $url = "/comments/" . $commentId;
+        $url = "/comments/{$commentId}";
 
         return $this->HttpRequest( "DELETE", $url );
     }
@@ -360,6 +362,7 @@ class FrameIOClient
     | Description:    Get Review Links for Project
     */
     public function getReviewLinks( $projectId ) {
+
     	$url = "/projects/{$projectId}/review_links";
 
 		return $this->HttpRequest( "GET", $url );
@@ -397,6 +400,7 @@ class FrameIOClient
     public function UpdateReviewLink( $reviewLinkId, $name, $allowApprovals = false, $currentVersionOnly = false, $enableDownloading = false, $requiresPassphrase = false, $password = '', $expiresAt = '' ) {
 
         $url = "/review_links/{$reviewLinkId}";
+
         $payload = array(
             "name" => $name,
             "allow_approvals" => $allowApprovals,
@@ -416,9 +420,9 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Get a Review Link
     */
-    public function getReviewLink( $link_id ) {
+    public function getReviewLink( $linkId ) {
 
-	    $url = "/review_links/{$link_id}";
+	    $url = "/review_links/{$linkId}";
 
 		return $this->HttpRequest( "GET", $url );
     }
@@ -429,9 +433,9 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Get Review Link Items
     */
-    public function getReviewLinkItems( $link_id ) {
+    public function getReviewLinkItems( $linkId ) {
 
-	    $url = "/review_links/{$link_id}/items";
+	    $url = "/review_links/{$linkId}/items";
 
 		return $this->HttpRequest( "GET", $url );
     }
@@ -462,6 +466,7 @@ class FrameIOClient
     public function getSearchAssets ( $query = '', $teamId = '', $accountId = '' ) {
 
         $url = "/search/assets?";
+
         if( $query ) {
             $url .= "q=" . $query;
         }
@@ -486,6 +491,7 @@ class FrameIOClient
     public function searchAssets ( $query = '', $teamId = '', $accountId = '', $filter = [] ) {
 
         $url = "/search/assets?";
+
         $payload = array(
             "q"             =>  $query,
             "team_id"       =>  $teamId,
