@@ -102,5 +102,6 @@ final class ClientTest extends TestCase
         $response = $this->client->createAsset( $projectId, $args );
 
         $this->assertObjectHasAttribute( 'id', $response );
+        $this->assertObjectHasAttribute( 'updated_at', $response );
     }
 }

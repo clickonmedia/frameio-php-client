@@ -109,17 +109,21 @@ $frameIO->addCollaboratorToTeam( $projectId, $email )
 
 **Create an asset**
 
-> @param string $rootAssetId Parent asset ID (required)<br />
+https://docs.frame.io/reference#createasset
+
+> @param string $projectId Project ID (required)<br />
+
 > @param string $name Name (required)<br />
 > @param int $filesize Filesize (required)<br />
-> @param string $description Sescription (default Value: "")<br />
-> @param string $type Type (default value: "file")<br />
-> @param string $filetype Filetype  (default value: "mp4")<br />
-> @param string $fileUrl File URL  (default value: "")<br />
-> @param array $properties Properties  (default value: []/key value pair array)
+> @param string $type Type (required: "file" or "folder")<br />
+
+> @param string $description Description (optional)<br />
+> @param string $filetype File type  (optional, e.g. "video/mp4")<br />
+> @param string $fileUrl File URL  (optional)<br />
+> @param array $properties Custom Properties  (optional)
 
 ```
-$frameIO->createAsset( $rootAssetId, $name, $filesize, $description, $type, $filetype, $fileUrl, $properties)
+$frameIO->createAsset( $projectId, $args );
 ```
 
 
