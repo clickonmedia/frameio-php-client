@@ -61,11 +61,12 @@ $frameIO->addTeamMembership( $teamId, $userId, $role )
 
 **Create project**
 
-> @param string $name Project name (default value: Current Time)<br />
-> @param boolean $private Set project as private (required)
+> @param string $name Project name (required)<br />
+> @param string $teamId Team ID (required)<br />
+> @param boolean $private Set project as private (optional)
 
 ```
-$frameIO->createProject( $name , $private )
+$frameIO->createProject( $name, $teamId, $private )
 ```
 
 
