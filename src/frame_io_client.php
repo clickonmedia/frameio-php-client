@@ -6,12 +6,13 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use Frameio\FrameIOUploader;
 
 
 class FrameIOClient
 {
-	private $host = "https://api.frame.io/v2";
-	private $token;
+    private $host = "https://api.frame.io/v2";
+    private $token;
 
     public function __construct( $token ) {
         $this->token = $token;
@@ -24,7 +25,7 @@ class FrameIOClient
     | Description:    Gets user profile
     */
     public function getProfile() {
-		return $this->HttpRequest( "GET", "/me" );
+        return $this->HttpRequest( "GET", "/me" );
     }
 
     /*
@@ -35,7 +36,7 @@ class FrameIOClient
     | NOTE: This currently returns an error because of a bug in Frame.io API
     */
     public function getTeams() {
-    	return $me = $this->HttpRequest( "GET", "/teams" );
+        return $me = $this->HttpRequest( "GET", "/teams" );
     }
 
      /*
@@ -85,7 +86,7 @@ class FrameIOClient
     */
     public function createProject( $name, $teamId, $private = false ) {
 
-		$url = "/teams/{$teamId}/projects";
+        $url = "/teams/{$teamId}/projects";
 
         $payload = array(
             "name" => $name,
@@ -103,7 +104,7 @@ class FrameIOClient
     */
     public function getProjectById( $projectId ) {
 
-		$url = "/projects/{$projectId}";
+        $url = "/projects/{$projectId}";
 
         return $this->HttpRequest( "GET", $url );
     }
@@ -116,7 +117,7 @@ class FrameIOClient
     */
     public function deleteProjectById( $projectId ) {
 
-		$url = "/projects/{$projectId}";
+        $url = "/projects/{$projectId}";
 
         return $this->HttpRequest( "DELETE", $url );
     }
@@ -129,7 +130,7 @@ class FrameIOClient
     */
     public function getProjectsByTeamid( $teamId ) {
 
-		$url = "/teams/{$teamId}/projects";
+        $url = "/teams/{$teamId}/projects";
 
         return $this->HttpRequest( "GET", $url);
     }
@@ -174,16 +175,16 @@ class FrameIOClient
     |
     |    project_id      String      Frame.io Project ID  (required)
     |
-    |    args            Array       Arguments:
+    |    args            Object      Additional parameters
     |
-    |    name            String      Asset name (required)
-    |    filesize        Integer     File size in bytes (required)
-    |    type            String      File type / "file" or "folder" (required)
+    |      name          String      Asset name (required)
+    |      filesize      Integer     File size in bytes (required)
+    |      type          String      File type / "file" or "folder" (required)
     |
-    |    description     String      Asset description (optional)
-    |    filetype        String      File type, e.g. "video/mp4" (optional)
-    |    source          Array       Asset name / ["url" => $url] (optional)
-    |    properties      Array       Custom key-value data (optional)
+    |      description   String      Asset description (optional)
+    |      filetype      String      File type, e.g. "video/mp4" (optional)
+    |      source        Array       Asset name / ["url" => $url] (optional)
+    |      properties    Array       Custom key-value data (optional)
     */
 
     public function createAsset( $projectId, $args ) {
@@ -219,7 +220,6 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Get an Asset by ID
     */
-
     public function getAssetById( $assetId ) {
 
         $url = "/assets/{$assetId}";
@@ -232,17 +232,27 @@ class FrameIOClient
     | Update an Asset By Id
     |-------------------------------------------------------------------------------
     | Description:    Update an Asset By Id
+    |
+    | assetId                   String      Frame.io asset ID (required)
+    | assetId                   String      Asset name (required)
+    |
+    | args                      Object      Additional parameters
+    |
+    |   description             String      Brief description of the Asset (optional)
+    |   properties              Array       Custom key-value data (optional)
+    |
     */
-
-    public function updateAssetById( $assetId, $name = '', $description = '', $properties = [] ) {
+    public function updateAssetById( $assetId, $name, $description = '', $properties = [] ) {
 
         $url = "/assets/{$assetId}";
-        $payload = array(
+
+        $defaults = array(
             "name" => $name,
             "description"   =>  $description,
             "properties"    =>  $properties
-
         );
+
+        $payload = array_merge( $defaults, $args );
 
         return $this->HttpRequest( "PUT", $url, $payload);
     }
@@ -253,7 +263,6 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Delete an Asset
     */
-
     public function deleteAssetById( $assetId ) {
 
         $url = "/assets/{$assetId}";
@@ -266,8 +275,11 @@ class FrameIOClient
     | Add a version to an Asset
     |-------------------------------------------------------------------------------
     | Description:    Add a version to an Asset
+    |
+    | Parameters:
+    | assetId                   String      Frame.io asset ID (required)
+    | nextAssetId               String      Asset ID for the next version (required)
     */
-
     public function addVersionToAsset( $assetId, $nextAssetId ) {
 
         $url = "/assets/{$assetId}/version";
@@ -281,25 +293,40 @@ class FrameIOClient
 
     /*
     |-------------------------------------------------------------------------------
+    | Get Project Assets
+    |-------------------------------------------------------------------------------
+    | Description:    Get Project Assets
+    */
+    public function getProjectAssets( $projectId ) {
+
+        $project = $this->HttpRequest( "GET", "/projects/" . $project_id );
+
+        return $this->getAssets( $project->root_asset_id );
+    }
+
+    /*
+    |-------------------------------------------------------------------------------
     | Create a Comment
     |-------------------------------------------------------------------------------
     | Description:    Create a Comment
+    |
+    | Parameters:
+    | assetId                   String      Frame.io asset ID (required)
+    |
+    | args                      Object      Comment data (required)
+    |
+    |   text                    String      The body of the comment (optional)
+    |   annotation              String      Serialized list of geometry and/or drawing data (optional)
+    |   timestamp               Integer     Timestamp for the comment, in frames (optional)
+    |   page                    Integer     Page number for a comment (optional)
+    |   pitch                   String      Pitch measurement for the comment / 360deg video only (optional)
+    |   yaw                     String      Yaw measurement for the comment / 360deg video only (optional)
     */
-
-    public function createComment( $assetId, $text = '', $annotation = '', $timestamp = '', $page = '', $pitch = '', $yaw = '' ) {
+    public function createComment( $assetId, $args ) {
 
         $url = "/assets/{$assetId}/comments";
 
-        $payload = array(
-            "text"          =>  $text,
-            "annotation"    =>  $annotation,
-            "timestamp"     =>  $timestamp,
-            "page"          =>  $page,
-            "pitch"         =>  $pitch,
-            "yaw"           =>  $yaw,
-        );
-
-        return $this->HttpRequest( "POST", $url, $payload );
+        return $this->HttpRequest( "POST", $url, $args );
     }
 
     /*
@@ -308,7 +335,6 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Get Comments
     */
-
     public function getComments( $assetId ) {
 
         $url = "/assets/{$assetId}/comments";
@@ -322,7 +348,6 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Get Comments
     */
-
     public function getCommentById( $commentId ) {
 
         $url = "/comments/{$commentId}";
@@ -336,7 +361,6 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Update a Comment
     */
-
     public function updateComment( $commentId, $text = '' ) {
 
         $url = "/comments/{$commentId}";
@@ -354,7 +378,6 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Delete a Comment
     */
-
     public function deleteCommentById ( $commentId ) {
 
         $url = "/comments/{$commentId}";
@@ -362,7 +385,7 @@ class FrameIOClient
         return $this->HttpRequest( "DELETE", $url );
     }
 
-	/*
+    /*
     |-------------------------------------------------------------------------------
     | Get Review Links for Project
     |-------------------------------------------------------------------------------
@@ -370,9 +393,9 @@ class FrameIOClient
     */
     public function getReviewLinks( $projectId ) {
 
-    	$url = "/projects/{$projectId}/review_links";
+        $url = "/projects/{$projectId}/review_links";
 
-		return $this->HttpRequest( "GET", $url );
+        return $this->HttpRequest( "GET", $url );
     }
 
     /*
@@ -380,22 +403,37 @@ class FrameIOClient
     | Create a Review Link
     |-------------------------------------------------------------------------------
     | Description:    Create a Review Link
+    | https://docs.frame.io/docs/working-with-review-links#section-step-2-create-the-review-link
+    |
+    | Parameters:
+    | projectId                 String      Frame.io Project ID
+    | name                      String      Name of the Review Link
+    | args
+    |   allow_approvals         Boolean     Allow approvals in Review Link (optional, default: false)
+    |   current_version_only    Boolean     View current version of asset only (optional, default: false)
+    |   enable_downloading      Boolean     Enable asset downloading (optional, default: false)
+    |   requires_passphrase     Boolean     Allow approvals in Review Link (optional, default: false)
+    |   password                String      Password to protect Review Link (optional, default: none)
+    |   expires_at              Date        Set expiry date for the Review Link (optional, default: none)
+    |
     */
-    public function createReviewLink( $projectId, $name, $allowApprovals = false, $currentVersionOnly = false, $enableDownloading = false, $requiresPassphrase = false, $password = '', $expiresAt = '' ) {
+    public function createReviewLink( $projectId, $name, $args ) {
 
-	    $url = "/projects/{$projectId}/review_links";
+        $url = "/projects/{$projectId}/review_links";
 
-        $payload = array(
+        $defaults = array(
             "name" => $name,
-            "allow_approvals" => $allowApprovals,
-            "current_version_only" => $currentVersionOnly,
-            "enable_downloading" => $enableDownloading,
-            "requires_passphrase" => $requiresPassphrase,
-            "password" => $password,
-            "expires_at" => $expiresAt,
+            "allow_approvals" => false,
+            "current_version_only" => false,
+            "enable_downloading" => false,
+            "requires_passphrase" => false,
+            "password" => '',
+            "expires_at" => ''
         );
 
-		return $this->HttpRequest( "POST", $url, $payload );
+        $payload = array_merge( $defaults, $args );
+
+        return $this->HttpRequest( "POST", $url, $payload );
     }
 
     /*
@@ -403,19 +441,30 @@ class FrameIOClient
     | Update a Review Link
     |-------------------------------------------------------------------------------
     | Description:    Update a Review Link
+    |
+    | Parameters:
+    | reviewLinkId             String      Frame.io review link ID
+    | name                     String      Review link name
+    | args                     Object      Additional optional parameters
+    |   allow_approvals         Boolean     Allow approvals in Review Link (optional, default: false)
+    |   current_version_only    Boolean     View current version of asset only (optional, default: false)
+    |   enable_downloading      Boolean     Enable asset downloading (optional, default: false)
+    |   requires_passphrase     Boolean     Allow approvals in Review Link (optional, default: false)
+    |   password                String      Password to protect Review Link (optional, default: none)
+    |   expires_at              Date        Set expiry date for the Review Link (optional, default: none)
     */
-    public function UpdateReviewLink( $reviewLinkId, $name, $allowApprovals = false, $currentVersionOnly = false, $enableDownloading = false, $requiresPassphrase = false, $password = '', $expiresAt = '' ) {
+    public function UpdateReviewLink( $reviewLinkId, $name, $args ) {
 
         $url = "/review_links/{$reviewLinkId}";
 
-        $payload = array(
+        $defaults = array(
             "name" => $name,
-            "allow_approvals" => $allowApprovals,
-            "current_version_only" => $currentVersionOnly,
-            "enable_downloading" => $enableDownloading,
-            "requires_passphrase" => $requiresPassphrase,
-            "password" => $password,
-            "expires_at" => $expiresAt,
+            "allow_approvals" => false,
+            "current_version_only" => false,
+            "enable_downloading" => false,
+            "requires_passphrase" => false,
+            "password" => '',
+            "expires_at" => ''
         );
 
         return $this->HttpRequest( "PUT", $url, $payload );
@@ -429,9 +478,9 @@ class FrameIOClient
     */
     public function getReviewLink( $linkId ) {
 
-	    $url = "/review_links/{$linkId}";
+        $url = "/review_links/{$linkId}";
 
-		return $this->HttpRequest( "GET", $url );
+        return $this->HttpRequest( "GET", $url );
     }
 
     /*
@@ -442,9 +491,9 @@ class FrameIOClient
     */
     public function getReviewLinkItems( $linkId ) {
 
-	    $url = "/review_links/{$linkId}/items";
+        $url = "/review_links/{$linkId}/items";
 
-		return $this->HttpRequest( "GET", $url );
+        return $this->HttpRequest( "GET", $url );
     }
 
     /*
@@ -455,13 +504,13 @@ class FrameIOClient
     */
     public function addAssetsToReviewLink( $reviewLinkId, $assetIds ) {
 
-	    $url = "/review_links/{$reviewLinkId}/assets";
+        $url = "/review_links/{$reviewLinkId}/assets";
 
-		$payload = array(
-			"asset_ids" => $assetIds
-		);
+        $payload = array(
+            "asset_ids" => $assetIds
+        );
 
-		return $this->HttpRequest( "POST", $url, $payload, true );
+        return $this->HttpRequest( "POST", $url, $payload, true );
     }
 
     /*
@@ -516,27 +565,42 @@ class FrameIOClient
     | Description:    Returns the API base URL
     */
     public function getHost() {
-		return $this->host;
+        return $this->host;
     }
 
     /*
     |-------------------------------------------------------------------------------
-    | All Http Request Handle Hare
+    | Upload
     |-------------------------------------------------------------------------------
-    | Description:    All Http Request Handle Hare
+    | Description:      Upload an asset to Frame.io
+    |
+    |  $asset           Object      The asset object
+    |  $file_path       String      The path of the file to upload
+    */
+    public function upload( $asset, $file_path ) {
+        // Upload file to Frame
+        $uploader = new FrameIOUploader( $asset, $file_path );
+        return $uploader->upload();
+    }
+
+    /*
+    |-------------------------------------------------------------------------------
+    | HTTP Request
+    |-------------------------------------------------------------------------------
+    | Description:    Method for all HTTP requests
     */
     protected function HttpRequest( $method, $url, $payload = false, $json = false ) {
-        try {
 
+        try {
             $url = $this->host . $url;
             $result = null;
 
-            //initialize GuzzleHttp client
+            // Initialize GuzzleHttp client
             $client = new Client([
                 'http_errors' => false
             ]);
 
-            //Config header
+            // Configure HTTP headers
             $headers = array(
                 'accept' => 'application/json',
                 'authorization' => 'Bearer ' . $this->token,
@@ -549,10 +613,10 @@ class FrameIOClient
                 $payload = json_encode( $payload );
             }
 
-            $response = $client->request($method, $url, [
-                            'headers'  => $headers,
-                            'body' =>  $payload
-                        ]);
+            $response = $client->request( $method, $url, [
+                'headers'  => $headers,
+                'body' =>  $payload
+            ]);
 
             $result = $response->getBody()->getContents();
             return \GuzzleHttp\json_decode( $result );
