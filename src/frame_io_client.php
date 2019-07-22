@@ -236,13 +236,13 @@ class FrameIOClient
     | assetId                   String      Frame.io asset ID (required)
     | assetId                   String      Asset name (required)
     |
-    | args                      Object      Additional parameters
+    | args                      Object      Additional optional parameters
     |
     |   description             String      Brief description of the Asset (optional)
     |   properties              Array       Custom key-value data (optional)
     |
     */
-    public function updateAssetById( $assetId, $name, $args ) {
+    public function updateAssetById( $assetId, $name, $args = [] ) {
 
         $url = "/assets/{$assetId}";
 
@@ -417,7 +417,7 @@ class FrameIOClient
     |   expires_at              Date        Set expiry date for the Review Link (optional, default: none)
     |
     */
-    public function createReviewLink( $projectId, $name, $args ) {
+    public function createReviewLink( $projectId, $name, $args = [] ) {
 
         $url = "/projects/{$projectId}/review_links";
 
@@ -445,7 +445,9 @@ class FrameIOClient
     | Parameters:
     | reviewLinkId             String      Frame.io review link ID
     | name                     String      Review link name
+    |
     | args                     Object      Additional optional parameters
+    |
     |   allow_approvals         Boolean     Allow approvals in Review Link (optional, default: false)
     |   current_version_only    Boolean     View current version of asset only (optional, default: false)
     |   enable_downloading      Boolean     Enable asset downloading (optional, default: false)
@@ -453,7 +455,7 @@ class FrameIOClient
     |   password                String      Password to protect Review Link (optional, default: none)
     |   expires_at              Date        Set expiry date for the Review Link (optional, default: none)
     */
-    public function UpdateReviewLink( $reviewLinkId, $name, $args ) {
+    public function UpdateReviewLink( $reviewLinkId, $name, $args = [] ) {
 
         $url = "/review_links/{$reviewLinkId}";
 
