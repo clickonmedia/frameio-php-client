@@ -203,7 +203,7 @@ class FrameIOClient
     | Description:    Get Assets
     */
 
-    public function getAssets( $rootAssetId, $type = 'file' ) {
+    public function getAssets( $rootAssetId, $type = "file" ) {
 
         $url = "/assets/{$rootAssetId}/children";
 
@@ -242,14 +242,14 @@ class FrameIOClient
     |   properties              Array       Custom key-value data (optional)
     |
     */
-    public function updateAssetById( $assetId, $name, $description = '', $properties = [] ) {
+    public function updateAssetById( $assetId, $name, $args ) {
 
         $url = "/assets/{$assetId}";
 
         $defaults = array(
             "name" => $name,
-            "description"   =>  $description,
-            "properties"    =>  $properties
+            "description" => "",
+            "properties" => []
         );
 
         $payload = array_merge( $defaults, $args );
@@ -361,7 +361,7 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Update a Comment
     */
-    public function updateComment( $commentId, $text = '' ) {
+    public function updateComment( $commentId, $text = "" ) {
 
         $url = "/comments/{$commentId}";
 
@@ -427,8 +427,8 @@ class FrameIOClient
             "current_version_only" => false,
             "enable_downloading" => false,
             "requires_passphrase" => false,
-            "password" => '',
-            "expires_at" => ''
+            "password" => "",
+            "expires_at" => ""
         );
 
         $payload = array_merge( $defaults, $args );
@@ -463,8 +463,8 @@ class FrameIOClient
             "current_version_only" => false,
             "enable_downloading" => false,
             "requires_passphrase" => false,
-            "password" => '',
-            "expires_at" => ''
+            "password" => "",
+            "expires_at" => ""
         );
 
         return $this->HttpRequest( "PUT", $url, $payload );
@@ -519,7 +519,7 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Search for Assets
     */
-    public function getSearchAssets ( $query = '', $teamId = '', $accountId = '' ) {
+    public function getSearchAssets ( $query = "", $teamId = "", $accountId = "" ) {
 
         $url = "/search/assets?";
 
@@ -544,7 +544,7 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Search for Assets
     */
-    public function searchAssets ( $query = '', $teamId = '', $accountId = '', $filter = [] ) {
+    public function searchAssets ( $query = "", $teamId = "", $accountId = "", $filter = [] ) {
 
         $url = "/search/assets?";
 
@@ -597,14 +597,14 @@ class FrameIOClient
 
             // Initialize GuzzleHttp client
             $client = new Client([
-                'http_errors' => false
+                "http_errors" => false
             ]);
 
             // Configure HTTP headers
             $headers = array(
-                'accept' => 'application/json',
-                'authorization' => 'Bearer ' . $this->token,
-                'content-type' => 'application/json'
+                "accept" => "application/json",
+                "authorization" => "Bearer " . $this->token,
+                "content-type" => "application/json"
             );
 
             if ( $json ) {
@@ -614,8 +614,8 @@ class FrameIOClient
             }
 
             $response = $client->request( $method, $url, [
-                'headers'  => $headers,
-                'body' =>  $payload
+                "headers"  => $headers,
+                "body" =>  $payload
             ]);
 
             $result = $response->getBody()->getContents();
