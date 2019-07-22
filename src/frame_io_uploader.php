@@ -6,12 +6,10 @@ class FrameIOUploader {
 
     private $asset;
     private $file;
-    private $upload_urls;
 
-    public function __construct( $asset, $filepath, $upload_urls ) {
+    public function __construct( $asset, $filepath ) {
         $this->asset = $asset;
         $this->file = $filepath;
-        $this->upload_urls = $upload_urls;
     }
 
     private function _uploadRequest( $url, $chunk ) {
@@ -43,7 +41,7 @@ class FrameIOUploader {
 
     public function upload() {
         $total_size = filesize( $this->file );
-        $upload_urls = $this->upload_urls;
+        $upload_urls = $this->asset->upload_urls;
 
         $file = fopen( $this->file, "r+" ) or die( "Unable to open file!" );
         $size = intval( ceil ( $total_size / sizeof( $upload_urls ) ) );
