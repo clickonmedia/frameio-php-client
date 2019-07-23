@@ -169,24 +169,24 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Create Asset
     |-------------------------------------------------------------------------------
-    | Description:    Create an asset
+    | Description:      Create an asset
+    |                   https://docs.frame.io/reference#createasset
     |
     | Parameters:
     |
-    |    project_id      String      Frame.io Project ID  (required)
+    |    project_id     String      Frame.io Project ID  (required)
     |
-    |    args            Object      Additional parameters
+    |    args           Object      Additional parameters
     |
-    |      name          String      Asset name (required)
-    |      filesize      Integer     File size in bytes (required)
-    |      type          String      File type / "file" or "folder" (required)
+    |      name         String      Asset name (required)
+    |      filesize     Integer     File size in bytes (required)
+    |      type         String      File type / "file" or "folder" (required)
     |
-    |      description   String      Asset description (optional)
-    |      filetype      String      File type, e.g. "video/mp4" (optional)
-    |      source        Array       Asset name / ["url" => $url] (optional)
-    |      properties    Array       Custom key-value data (optional)
+    |      description  String      Asset description (optional)
+    |      filetype     String      File type, e.g. "video/mp4" (optional)
+    |      source       Array       Asset name / ["url" => $url] (optional)
+    |      properties   Array       Custom key-value data (optional)
     */
-
     public function createAsset( $projectId, $args ) {
 
         $project = $this->getProjectById( $projectId );
@@ -202,7 +202,6 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Get Assets
     */
-
     public function getAssets( $rootAssetId, $type = "file" ) {
 
         $url = "/assets/{$rootAssetId}/children";
@@ -234,7 +233,7 @@ class FrameIOClient
     | Description:    Update an Asset By Id
     |
     | assetId                   String      Frame.io asset ID (required)
-    | assetId                   String      Asset name (required)
+    | name                      String      Asset name (required)
     |
     | args                      Object      Additional optional parameters
     |

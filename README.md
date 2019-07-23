@@ -23,7 +23,18 @@ echo $frameIO->getHost();
 ```
 
 
-## All available functions
+## Development / Run tests
+
+Copy *.env.example* file from the root directory and rename the file to *.env*.
+Fill in the variables in the file based on information from the Frame.io dashboard.
+
+```
+composer install
+composer run-script test
+```
+
+
+## Available functionality
 
 **Get user profile**
 
@@ -36,6 +47,15 @@ $frameIO->getProfile()
 
 ```
 $frameIO->getTeams()
+```
+
+
+**Get Teams By Account Id**
+
+> @param string $accountId Account ID (required)
+
+```
+$frameIO->getTeamsByAccountId( $accountId )
 ```
 
 
@@ -88,6 +108,15 @@ $frameIO->deleteProjectById( $projectId )
 ```
 
 
+**Get Projects By Team ID**
+
+> @param string $teamId Team ID (required)
+
+```
+$frameIO->getProjectsByTeamid( $teamId )
+```
+
+
 **Get user membership for project**
 
 > @param string $projectId Project ID (required)
@@ -113,14 +142,15 @@ https://docs.frame.io/reference#createasset
 
 > @param string $projectId Project ID (required)<br />
 
-> @param string $name Name (required)<br />
-> @param int $filesize Filesize (required)<br />
-> @param string $type Type (required: "file" or "folder")<br />
+> @param string $args Additional arguments (required):<br />
 
-> @param string $description Description (optional)<br />
-> @param string $filetype File type  (optional, e.g. "video/mp4")<br />
-> @param string $fileUrl File URL  (optional)<br />
-> @param array $properties Custom Properties  (optional)
+> name          string      Name (required)<br />
+> filesize      int         Filesize (required)<br />
+> type          string      Type (required: "file" or "folder")<br />
+> description   string      Description (optional)<br />
+> filetype      string      File type  (optional, e.g. "video/mp4")<br />
+> fileUrl       string      File URL  (optional)<br />
+> properties    array       Custom Properties  (optional)
 
 ```
 $frameIO->createAsset( $projectId, $args );
@@ -130,7 +160,7 @@ $frameIO->createAsset( $projectId, $args );
 **Get assets**
 
 > @param string $rootAssetId Parent asset ID (required)<br />
-> @param string $name Type (default value: "file")
+> @param string $type Type (default value: "file")
 
 ```
 $frameIO->getAssets( $rootAssetId, $type )
@@ -149,12 +179,13 @@ $frameIO->getAssetById( $assetId )
 **Update an Asset**
 
 > @param string $assetId Asset ID (required)<br />
-> @param string $name Name (default value: "")<br />
-> @param string $description Description (default value: "")<br />
-> @param string $properties Properties (default value: []/key value pair array)
+> @param string $name Name (required)<br />
+> @param string $args Additional arguments (optional):<br />
+> description   string      Description (default value: "")<br />
+> properties    string      Properties (default value: []/key value pair array)
 
 ```
-$frameIO->updateAssetById( $assetId, $name, $description, $properties )
+$frameIO->updateAssetById( $assetId, $name, $args )
 ```
 
 
@@ -177,18 +208,38 @@ $frameIO->addVersionToAsset( $assetId, $nextAssetId )
 ```
 
 
+**Get Project Assets**
+
+> @param string $projectId Project ID (required)
+
+```
+$frameIO->getProjectAssets( $projectId )
+```
+
+
+**Upload a file to an asset**
+
+> @param object $asset The asset object (required)
+> @param string $file_path File path of the file (required)
+
+```
+$frameIO->upload( $asset, $file_path );
+```
+
 **Create a Comment**
 
 > @param string $assetId Asset ID (required)<br />
-> @param string $text Text (default value : "")<br />
-> @param string $annotation Annotation (default value : "")<br />
-> @param string $timestamp Timestamp (default value : "")<br />
-> @param string $napageme napageme (default value : "")<br />
-> @param string $pitch Pitch (default value : "")<br />
-> @param string $yaw yaw (default value : "")
+> @param object $args Additional arguments (required)<br />
+
+> text              string      Text (default value: "")<br />
+> annotation        string      Annotation (default value: "")<br />
+> timestamp         string      Timestamp (default value: "")<br />
+> napageme          string      napageme (default value: "")<br />
+> pitch             string      Pitch (default value: "")<br />
+> yaw               string      yaw (default value: "")
 
 ```
-$frameIO->createComment( $assetId, $text, $annotation, $timestamp, $page, $pitch, $yaw)
+$frameIO->createComment( $assetId, $args )
 ```
 
 
@@ -213,7 +264,7 @@ $frameIO->getCommentById( $commentId )
 **Update a Comment**
 
 > @param string $commentId Comment ID (required)<br />
-> @param string $text Comment text (default value : "")
+> @param string $text Comment text (default value: "")
 
 ```
 $frameIO->updateComment( $commentId, $text )
@@ -242,16 +293,18 @@ $frameIO->getReviewLinks( $projectId )
 
 > @param string $projectId Project ID (required)<br />
 > @param string $name Review link name (required)<br />
-> @param boolean $allowApprovals Allow Approvals (default value : false)<br />
-> @param boolean $currentVersionOnly Current Version Only (default value : false)<br />
-> @param boolean $enableDownloading Enable Downloading (default value : false)<br />
-> @param boolean $requiresPassphrase Requires Passphrase (default value : false)<br />
-> @param string $password Password (default value : "")<br />
-> @param string $expiresAt Expires At (default value : "")
+> @param string $args Review link name (optional):<br />
+
+> allow_approvals       boolean         Allow Approvals (default value: false)<br />
+> current_version_only  boolean         Current Version Only (default value: false)<br />
+> enable_downloading    boolean         Enable Downloading (default value: false)<br />
+> requires_passphrase   boolean         Requires Passphrase (default value: false)<br />
+> password              string          Password (default value: "")<br />
+> expires_at            string          Expires At (default value: "")
 
 
 ```
-$frameIO->createReviewLink( $projectId, $name, $allowApprovals, $currentVersionOnly, $enableDownloading, $requiresPassphrase, $password, $expiresAt )
+$frameIO->createReviewLink( $projectId, $name, $args )
 ```
 
 
@@ -259,15 +312,17 @@ $frameIO->createReviewLink( $projectId, $name, $allowApprovals, $currentVersionO
 
 > @param string $reviewLinkId Review link ID (required)<br />
 > @param string $name Review name (required)<br />
-> @param boolean $allowApprovals Allow Approvals (default value : false)<br />
-> @param boolean $currentVersionOnly Current Version Only (default value : false)<br />
-> @param boolean $enableDownloading Enable Downloading (default value : false)<br />
-> @param boolean $requiresPassphrase Requires Passphrase (default value : false)<br />
-> @param string $password password (default value : "")<br />
-> @param string $expiresAt Expires At (default value : "")
+> @param string $args Review link name (optional):<br />
+
+> allow_approvals       boolean         Allow Approvals (default value: false)<br />
+> current_version_only  boolean         Current Version Only (default value: false)<br />
+> enable_downloading    boolean         Enable Downloading (default value: false)<br />
+> requires_passphrase   boolean         Requires Passphrase (default value: false)<br />
+> password              string          Password (default value: "")<br />
+> expires_at            string          Expires At (default value: "")
 
 ```
-$frameIO->UpdateReviewLink( $reviewLinkId, $name, $allowApprovals, $currentVersionOnly, $enableDownloading, $requiresPassphrase, $password, $expiresAt )
+$frameIO->UpdateReviewLink( $reviewLinkId, $name, args )
 ```
 
 
@@ -291,8 +346,10 @@ $frameIO->getReviewLinkItems( $link_id )
 
 **Add Assets to a Review Link**
 
-> @param string $reviewLinkId Review link ID (required)<br />
-> @param array $assetIds Asset IDs (required, Array of ids)
+https://docs.frame.io/reference#reviewlinkitemcreate
+
+> @param    string     $reviewLinkId       Review link ID (required)<br />
+> @param    array      $assetIds           Asset IDs (required, array of ids)
 
 ```
 $frameIO->addAssetsToReviewLink( $reviewLinkId, $assetIds )
@@ -301,9 +358,9 @@ $frameIO->addAssetsToReviewLink( $reviewLinkId, $assetIds )
 
 **Search for Assets**
 
-> @param string $query Search query (default value : "")<br />
-> @param string $teamId Team ID (default value : "")<br />
-> @param string $accountId Account ID (default value : "")
+> @param string $query Search query (default value: "")<br />
+> @param string $teamId Team ID (default value: "")<br />
+> @param string $accountId Account ID (default value: "")
 
 ```
 $frameIO->getSearchAssets ( $query, $teamId, $accountId )
@@ -312,21 +369,11 @@ $frameIO->getSearchAssets ( $query, $teamId, $accountId )
 
 **Search for Assets (Complex)**
 
-> @param string $query Search query (default value : "")<br />
-> @param string $teamId Team ID (default value : "")<br />
-> @param string $accountId Account ID (default value : "")<br />
-> @param string $filter Filter for the query (default value : [], key value pair Array)
+> @param string $query Search query (default value: "")<br />
+> @param string $teamId Team ID (default value: "")<br />
+> @param string $accountId Account ID (default value: "")<br />
+> @param string $filter Filter for the query (default value: [], key value pair Array)
 
 ```
 $frameIO->searchAssets ( $query , $teamId , $accountId, $filter )
 ```
-
-
-## Development / Run tests
-
-Copy *.env.example* file from the root directory and rename the file to *.env*.
-Fill in the variables in the file based on information from the Frame.io dashboard.
-
-```
-composer install
-composer run-script test
