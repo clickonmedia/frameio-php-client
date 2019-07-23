@@ -104,4 +104,25 @@ final class ClientTest extends TestCase
         $this->assertObjectHasAttribute( 'id', $response );
         $this->assertObjectHasAttribute( 'updated_at', $response );
     }
+
+    public function testGetAsset()
+    {
+        $assetId = getenv('FRAMEIO_TEST_ASSET_ID');
+
+        $response = $this->client->getAssetById( $assetId );
+
+        $this->assertObjectHasAttribute( 'id', $response );
+    }
+
+
+    public function testAddAssetToReviewLink()
+    {
+        $reviewLinkId = getenv( 'FRAMEIO_TEST_REVIEW_LINK_ID' );
+        $assetId = getenv( 'FRAMEIO_TEST_ASSET_ID' );
+        $assetIds = [ $assetId ];
+
+        $response = $this->client->addAssetsToReviewLink( $reviewLinkId, $assetIds );
+
+        $this->assertObjectHasAttribute( 'id', $response );
+    }
 }

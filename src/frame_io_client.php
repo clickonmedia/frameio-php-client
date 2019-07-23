@@ -537,7 +537,7 @@ class FrameIOClient
             $url .= "account_id=" . $accountId;
         }
 
-        return $this->HttpRequest( "post", $url, $payload, true );
+        return $this->HttpRequest( "post", $url, $payload );
     }
 
     /*
@@ -557,7 +557,7 @@ class FrameIOClient
             "filter"        =>  $filter
         );
 
-        return $this->HttpRequest( "post", $url, $payload, true );
+        return $this->HttpRequest( "post", $url, $payload );
     }
 
     /*
@@ -591,7 +591,7 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Method for all HTTP requests
     */
-    protected function HttpRequest( $method, $url, $payload = false, $json = false ) {
+    protected function HttpRequest( $method, $url, $payload = false ) {
 
         try {
             $url = $this->host . $url;
@@ -609,18 +609,18 @@ class FrameIOClient
                 "content-type" => "application/json"
             );
 
-            if ( $json ) {
-                $payload = $payload;
-            } else {
-                $payload = json_encode( $payload );
+            $args = [
+                "headers" => $headers
+            ];
+
+            if ( $payload ) {
+                $args['body'] = json_encode( $payload );
             }
 
-            $response = $client->request( $method, $url, [
-                "headers"  => $headers,
-                "body" =>  $payload
-            ]);
+            $response = $client->request( $method, $url, $args );
 
             $result = $response->getBody()->getContents();
+
             return \GuzzleHttp\json_decode( $result );
 
         } catch (\ClientException $e){
