@@ -18,7 +18,7 @@ https://docs.frame.io/reference
 require __DIR__ . '/vendor/autoload.php';
 use Frameio\FrameIOClient;
 
-$frameIO =  new FrameIOClient("TOKEN");
+$frameIO =  new FrameIOClient(<frameio-token>);
 echo $frameIO->getHost();
 ```
 
