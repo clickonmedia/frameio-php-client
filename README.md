@@ -181,8 +181,13 @@ $frameIO->getAssetById( $assetId )
 > @param string $assetId Asset ID (required)<br />
 > @param string $name Name (required)<br />
 > @param string $args Additional arguments (optional):<br />
-> description   string      Description (default value: "")<br />
-> properties    string      Properties (default value: []/key value pair array)
+
+
+| Property      | Type      | Default                   | Description                       |
+| ----          | ----      | ----                      | ----                              |
+| Description   | string    | ""                        | -                                 |
+| Properties    | array     | []/key value pair array   | Numberns are clicked.             |
+
 
 ```
 $frameIO->updateAssetById( $assetId, $name, $args )
@@ -219,7 +224,7 @@ $frameIO->getProjectAssets( $projectId )
 
 **Upload a file to an asset**
 
-> @param object $asset The asset object (required)
+> @param object $asset The asset object (required)<br />
 > @param string $file_path File path of the file (required)
 
 ```
@@ -231,12 +236,12 @@ $frameIO->upload( $asset, $file_path );
 > @param string $assetId Asset ID (required)<br />
 > @param object $args Additional arguments (required)<br />
 
-> text              string      Text (default value: "")<br />
-> annotation        string      Annotation (default value: "")<br />
-> timestamp         string      Timestamp (default value: "")<br />
-> napageme          string      napageme (default value: "")<br />
-> pitch             string      Pitch (default value: "")<br />
-> yaw               string      yaw (default value: "")
+> text              string      The body of the comment. (optional)<br />
+> annotation        string      Serialized list of geometry and/or drawing data. (optional)<br />
+> timestamp         string      Timestamp for the comment, in frames. (optional)<br />
+> page              string      Page number for a comment (optional, documents only).<br />
+> pitch             integer     Pitch measurement for the comment (optional, 360deg video only)<br />
+> yaw               string      Yaw measurement for the comment (optional, 360deg video only)
 
 ```
 $frameIO->createComment( $assetId, $args )
@@ -293,7 +298,7 @@ $frameIO->getReviewLinks( $projectId )
 
 > @param string $projectId Project ID (required)<br />
 > @param string $name Review link name (required)<br />
-> @param string $args Review link name (optional):<br />
+> @param string $args Additional arguments (optional):<br />
 
 > allow_approvals       boolean         Allow Approvals (default value: false)<br />
 > current_version_only  boolean         Current Version Only (default value: false)<br />
@@ -312,7 +317,7 @@ $frameIO->createReviewLink( $projectId, $name, $args )
 
 > @param string $reviewLinkId Review link ID (required)<br />
 > @param string $name Review name (required)<br />
-> @param string $args Review link name (optional):<br />
+> @param string $args Additional arguments (optional):<br />
 
 > allow_approvals       boolean         Allow Approvals (default value: false)<br />
 > current_version_only  boolean         Current Version Only (default value: false)<br />
