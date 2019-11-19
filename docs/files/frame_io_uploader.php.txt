@@ -16,8 +16,7 @@ class FrameIOUploader {
     |  $asset           Object      The Frame.io asset object
     |  $file_path       String      The path of the file to be uploaded
     */
-    public function __construct( $asset, $filepath )
-    {
+    public function __construct( $asset, $filepath ) {
         $this->asset = $asset;
         $this->file = $filepath;
     }
@@ -32,8 +31,7 @@ class FrameIOUploader {
     |  $url             Object      The upload URL
     |  $chunk           String      The file chunk to upload
     */
-    private function _uploadRequest( $url, $chunk )
-    {
+    private function _uploadRequest( $url, $chunk ) {
         $curl = curl_init( $url );
 
         curl_setopt( $curl, CURLOPT_RETURNTRANSFER, 1 );
@@ -67,8 +65,7 @@ class FrameIOUploader {
     | Description:      Upload a file into an asset in Frame.io
     |
     */
-    public function upload()
-    {
+    public function upload() {
         $total_size = filesize( $this->file );
         $upload_urls = $this->asset->upload_urls;
 
@@ -102,3 +99,4 @@ class FrameIOUploader {
         );
     }
 }
+

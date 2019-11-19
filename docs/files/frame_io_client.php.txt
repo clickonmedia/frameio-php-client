@@ -8,116 +8,85 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Frameio\FrameIOUploader;
 
- /**
-  * FrameIOClient
-  *
-  * Frame.io PHP Client, for accessing the Frame.io API
-  *
-  * @link https://docs.frame.io/docs
-  *
-  */
+
 class FrameIOClient
 {
     private $host = "https://api.frame.io/v2";
     private $token;
 
-    /**
-     * The class constructor
-     *
-     * Token variable is assigned on initialization
-     *
-     * @param  string  $token  Frame.io token
-     */
-    public function __construct( $token )
-    {
+    public function __construct( $token ) {
         $this->token = $token;
     }
 
-    /**
-     * Get Profile
-     *
-     * Fetches user profile
-     *
-     * @return  object  The user profile
-     */
-    public function getProfile()
-    {
+    /*
+    |-------------------------------------------------------------------------------
+    | Get Profile
+    |-------------------------------------------------------------------------------
+    | Description:    Gets user profile
+    */
+    public function getProfile() {
         return $this->HttpRequest( "GET", "/me" );
     }
 
-    /**
-     * Get Teams
-     *
-     * Fetches teams for a user
-     *
-     * @return  array  List of teams
-     */
-    public function getTeams()
-    {
-        return $this->HttpRequest( "GET", "/teams" );
+    /*
+    |-------------------------------------------------------------------------------
+    | Get Teams
+    |-------------------------------------------------------------------------------
+    | Description:    Gets teams for a user
+    | NOTE: This currently returns an error because of a bug in Frame.io API
+    */
+    public function getTeams() {
+        return $me = $this->HttpRequest( "GET", "/teams" );
     }
 
-    /**
-     * Get Teams By Account ID
-     *
-     * Gets teams for a user
-     *
-     * @param  string  $accountID  Frame.io account ID
-     *
-     * @return  array  List of teams
-     */
-    public function getTeamsByAccountID( $accountID )
-    {
-        return $this->HttpRequest( "GET", "/accounts/{$accountID}/teams" );
+     /*
+    |-------------------------------------------------------------------------------
+    | Get Teams By Account Id
+    |-------------------------------------------------------------------------------
+    | Description:    Gets teams for a user
+    | NOTE: This currently returns an error because of a bug in Frame.io API
+    */
+    public function getTeamsByAccountId( $accountId ) {
+        return $this->HttpRequest( "GET", "/accounts/{$accountId}/teams" );
     }
 
-    /**
-     * Get Teams Team Membership By Team ID
-     *
-     * Get Team Membership By Team ID
-     *
-     * @param  string  $teamID  Frame.io tean ID
-     *
-     * @return  object  Object with attribute "role" for user team role
-     */
-    public function getTeamMembership( $teamID )
-    {
-        return $this->HttpRequest( "GET", "/teams/{$teamID}/membership" );
+    /*
+    |-------------------------------------------------------------------------------
+    | Get Teams Team Membership By Team Id
+    |-------------------------------------------------------------------------------
+    | Description:    Get Team Membership By Team Id
+    | NOTE: This currently returns an error because of a bug in Frame.io API
+    */
+    public function getTeamMembership( $teamId ) {
+        return $this->HttpRequest( "GET", "/teams/{$teamId}/membership" );
     }
 
-    /**
-     * Add Teams Team Membership By Team ID
-     *
-     * @param  string  $teamID  Frame.io tean ID
-     * @param  string  $userID  Frame.io tean ID
-     * @param  string  $role  Frame.io tean ID
-     *
-     * @return  object  Object with user role and ID
-     */
-    public function addTeamMembership( $teamID, $userID, $role )
-    {
+    /*
+    |-------------------------------------------------------------------------------
+    | Add Teams Team Membership By Team Id
+    |-------------------------------------------------------------------------------
+    | Description:    Add Team Membership By Team Id
+    | NOTE: This currently returns an error because of a bug in Frame.io API
+    */
+    public function addTeamMembership( $teamId, $userId, $role ) {
 
         $payload = array(
-            "user_id"   =>  $userID,
+            "user_id"   =>  $userId,
             "role"      =>  $role
         );
 
-        return $this->HttpRequest( "POST", "/teams/{$teamID}/membership", $payload );
+        return $this->HttpRequest( "POST", "/teams/{$teamId}/membership", $payload );
     }
 
-    /**
-     * Create Project
-     *
-     * @param  string  $name  Project name
-     * @param  string  $teamID  Frame.io tean ID
-     * @param  bool  $private  Set to true if project should be private
-     *
-     * @return  object  Project details
-     */
-    public function createProject( $name, $teamID, $private = false )
-    {
+    /*
+    |-------------------------------------------------------------------------------
+    | Create Project
+    |-------------------------------------------------------------------------------
+    | Description:    Create a project
+    */
+    public function createProject( $name, $teamId, $private = false ) {
 
-        $url = "/teams/{$teamID}/projects";
+        $url = "/teams/{$teamId}/projects";
 
         $payload = array(
             "name" => $name,
@@ -127,78 +96,67 @@ class FrameIOClient
         return $this->HttpRequest( "POST", $url, $payload );
     }
 
-    /**
-     * Get Projects By ID
-     *
-     * @param  string  $projectID  Project ID
-     *
-     * @return  object  Project details
-     */
-    public function getProjectByID( $projectID )
-    {
+    /*
+    |-------------------------------------------------------------------------------
+    | Get Projects By Id
+    |-------------------------------------------------------------------------------
+    | Description:    Get Projects By Id
+    */
+    public function getProjectById( $projectId ) {
 
-        $url = "/projects/{$projectID}";
+        $url = "/projects/{$projectId}";
 
         return $this->HttpRequest( "GET", $url );
     }
 
-    /**
-     * Delete Projects By ID
-     *
-     * @param  string  $projectID  Project ID
-     *
-     * @return  object  Project details
-     */
-    public function deleteProjectByID( $projectID )
-    {
+    /*
+    |-------------------------------------------------------------------------------
+    | Delete Projects By Id
+    |-------------------------------------------------------------------------------
+    | Description:    Delete Projects By Id
+    */
+    public function deleteProjectById( $projectId ) {
 
-        $url = "/projects/{$projectID}";
+        $url = "/projects/{$projectId}";
 
         return $this->HttpRequest( "DELETE", $url );
     }
 
-    /**
-     * Get Projects By Team ID
-     *
-     * @param  string  $teamID  Team ID
-     *
-     * @return  array  List of projects
-     */
-    public function getProjectsByTeamid( $teamID )
-    {
+    /*
+    |-------------------------------------------------------------------------------
+    | Get Projects By Team Id
+    |-------------------------------------------------------------------------------
+    | Description:    Get Projects By Team Id
+    */
+    public function getProjectsByTeamid( $teamId ) {
 
-        $url = "/teams/{$teamID}/projects";
+        $url = "/teams/{$teamId}/projects";
 
         return $this->HttpRequest( "GET", $url);
     }
 
-    /**
-     * Get User Membership for Project
-     *
-     * @param  string  $projectID  Project ID
-     *
-     * @return  object  Membership information
-     */
-    public function getUserMembershipForProject( $projectID )
-    {
+    /*
+    |-------------------------------------------------------------------------------
+    | Get User Membership for Project
+    |-------------------------------------------------------------------------------
+    | Description:   Get User Membership for Project
+    */
+    public function getUserMembershipForProject( $projectId ) {
 
-        $url = "/projects/{$projectID}/membership";
+        $url = "/projects/{$projectId}/membership";
 
         return $this->HttpRequest( "GET", $url);
     }
 
-    /**
-     * Add A Collaborator To A Team
-     *
-     * @param  string  $projectID  Project ID
-     * @param  string  $email  Email address
-     *
-     * @return  object  Membership information
-     */
-    public function addCollaboratorToTeam( $projectID, $email )
-    {
+    /*
+    |-------------------------------------------------------------------------------
+    | Add A Collaborator To A Team.
+    |-------------------------------------------------------------------------------
+    | Description:    Add A Collaborator To A Team.
+    */
+    public function addCollaboratorToTeam( $projectId, $email ) {
 
-        $url = "/projects/{$projectID}/collaborators";
+        $url = "/projects/{$projectId}/collaborators";
 
         $payload = array(
             "email" => $email
@@ -229,23 +187,9 @@ class FrameIOClient
     |      source       Array       Asset name / ["url" => $url] (optional)
     |      properties   Array       Custom key-value data (optional)
     */
+    public function createAsset( $projectId, $args ) {
 
-    /**
-     * Create Asset
-     *
-     * @link https://docs.frame.io/reference#createasset
-     *
-     * @param  string  $projectID  Frame.io Project ID  (required)
-     * @param  array  $args  Multidimensional array, with additional parameters
-     *
-     *
-     *
-     * @return  object  Membership information
-     */
-    public function createAsset( $projectID, $args )
-    {
-
-        $project = $this->getProjectByID( $projectID );
+        $project = $this->getProjectById( $projectId );
 
         $url = "/assets/{$project->root_asset_id}/children";
 
@@ -258,10 +202,9 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Get Assets
     */
-    public function getAssets( $rootAssetID, $type = "file" )
-    {
+    public function getAssets( $rootAssetId, $type = "file" ) {
 
-        $url = "/assets/{$rootAssetID}/children";
+        $url = "/assets/{$rootAssetId}/children";
 
         if( $type ) {
            $url .="?type = " . $type;
@@ -276,21 +219,20 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Get an Asset by ID
     */
-    public function getAssetByID( $assetID )
-    {
+    public function getAssetById( $assetId ) {
 
-        $url = "/assets/{$assetID}";
+        $url = "/assets/{$assetId}";
 
         return $this->HttpRequest( "GET", $url );
     }
 
     /*
     |-------------------------------------------------------------------------------
-    | Update an Asset By ID
+    | Update an Asset By Id
     |-------------------------------------------------------------------------------
-    | Description:    Update an Asset By ID
+    | Description:    Update an Asset By Id
     |
-    | assetID                   String      Frame.io asset ID (required)
+    | assetId                   String      Frame.io asset ID (required)
     | name                      String      Asset name (required)
     |
     | args                      Object      Additional optional parameters
@@ -299,10 +241,9 @@ class FrameIOClient
     |   properties              Array       Custom key-value data (optional)
     |
     */
-    public function updateAssetByID( $assetID, $name, $args = [] )
-    {
+    public function updateAssetById( $assetId, $name, $args = [] ) {
 
-        $url = "/assets/{$assetID}";
+        $url = "/assets/{$assetId}";
 
         $defaults = array(
             "name" => $name,
@@ -321,10 +262,9 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Delete an Asset
     */
-    public function deleteAssetByID( $assetID )
-    {
+    public function deleteAssetById( $assetId ) {
 
-        $url = "/assets/{$assetID}";
+        $url = "/assets/{$assetId}";
 
         return $this->HttpRequest( "DELETE", $url );
     }
@@ -336,16 +276,15 @@ class FrameIOClient
     | Description:    Add a version to an Asset
     |
     | Parameters:
-    | assetID                   String      Frame.io asset ID (required)
-    | nextAssetID               String      Asset ID for the next version (required)
+    | assetId                   String      Frame.io asset ID (required)
+    | nextAssetId               String      Asset ID for the next version (required)
     */
-    public function addVersionToAsset( $assetID, $nextAssetID )
-    {
+    public function addVersionToAsset( $assetId, $nextAssetId ) {
 
-        $url = "/assets/{$assetID}/version";
+        $url = "/assets/{$assetId}/version";
 
         $payload = array(
-            "next_asset_id" => $nextAssetID,
+            "next_asset_id" => $nextAssetId,
         );
 
         return $this->HttpRequest( "POST", $url, $payload );
@@ -357,8 +296,7 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Get Project Assets
     */
-    public function getProjectAssets( $projectID )
-    {
+    public function getProjectAssets( $projectId ) {
 
         $project = $this->HttpRequest( "GET", "/projects/" . $project_id );
 
@@ -372,7 +310,7 @@ class FrameIOClient
     | Description:    Create a Comment
     |
     | Parameters:
-    | assetID                   String      Frame.io asset ID (required)
+    | assetId                   String      Frame.io asset ID (required)
     |
     | args                      Object      Comment data (required)
     |
@@ -383,10 +321,9 @@ class FrameIOClient
     |   pitch                   String      Pitch measurement for the comment / 360deg video only (optional)
     |   yaw                     String      Yaw measurement for the comment / 360deg video only (optional)
     */
-    public function createComment( $assetID, $args )
-    {
+    public function createComment( $assetId, $args ) {
 
-        $url = "/assets/{$assetID}/comments";
+        $url = "/assets/{$assetId}/comments";
 
         return $this->HttpRequest( "POST", $url, $args );
     }
@@ -397,10 +334,9 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Get Comments
     */
-    public function getComments( $assetID )
-    {
+    public function getComments( $assetId ) {
 
-        $url = "/assets/{$assetID}/comments";
+        $url = "/assets/{$assetId}/comments";
 
         return $this->HttpRequest( "GET", $url );
     }
@@ -411,10 +347,9 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Get Comments
     */
-    public function getCommentByID( $commentID )
-    {
+    public function getCommentById( $commentId ) {
 
-        $url = "/comments/{$commentID}";
+        $url = "/comments/{$commentId}";
 
         return $this->HttpRequest( "GET", $url );
     }
@@ -425,10 +360,9 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Update a Comment
     */
-    public function updateComment( $commentID, $text = "" )
-    {
+    public function updateComment( $commentId, $text = "" ) {
 
-        $url = "/comments/{$commentID}";
+        $url = "/comments/{$commentId}";
 
         $payload = array(
             "text" => $text,
@@ -443,10 +377,9 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Delete a Comment
     */
-    public function deleteCommentByID ( $commentID )
-    {
+    public function deleteCommentById ( $commentId ) {
 
-        $url = "/comments/{$commentID}";
+        $url = "/comments/{$commentId}";
 
         return $this->HttpRequest( "DELETE", $url );
     }
@@ -457,10 +390,9 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Get Review Links for Project
     */
-    public function getReviewLinks( $projectID )
-    {
+    public function getReviewLinks( $projectId ) {
 
-        $url = "/projects/{$projectID}/review_links";
+        $url = "/projects/{$projectId}/review_links";
 
         return $this->HttpRequest( "GET", $url );
     }
@@ -473,7 +405,7 @@ class FrameIOClient
     | https://docs.frame.io/docs/working-with-review-links#section-step-2-create-the-review-link
     |
     | Parameters:
-    | projectID                 String      Frame.io Project ID
+    | projectId                 String      Frame.io Project ID
     | name                      String      Name of the Review Link
     | args
     |   allow_approvals         Boolean     Allow approvals in Review Link (optional, default: false)
@@ -484,10 +416,9 @@ class FrameIOClient
     |   expires_at              Date        Set expiry date for the Review Link (optional, default: none)
     |
     */
-    public function createReviewLink( $projectID, $name, $args = [] )
-    {
+    public function createReviewLink( $projectId, $name, $args = [] ) {
 
-        $url = "/projects/{$projectID}/review_links";
+        $url = "/projects/{$projectId}/review_links";
 
         $defaults = array(
             "name" => $name,
@@ -511,7 +442,7 @@ class FrameIOClient
     | Description:    Update a Review Link
     |
     | Parameters:
-    | reviewLinkID             String      Frame.io review link ID
+    | reviewLinkId             String      Frame.io review link ID
     | name                     String      Review link name
     |
     | args                     Object      Additional optional parameters
@@ -523,10 +454,9 @@ class FrameIOClient
     |   password                String      Password to protect Review Link (optional, default: none)
     |   expires_at              Date        Set expiry date for the Review Link (optional, default: none)
     */
-    public function UpdateReviewLink( $reviewLinkID, $name, $args = [] )
-    {
+    public function UpdateReviewLink( $reviewLinkId, $name, $args = [] ) {
 
-        $url = "/review_links/{$reviewLinkID}";
+        $url = "/review_links/{$reviewLinkId}";
 
         $defaults = array(
             "name" => $name,
@@ -547,10 +477,9 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Get a Review Link
     */
-    public function getReviewLink( $linkID )
-    {
+    public function getReviewLink( $linkId ) {
 
-        $url = "/review_links/{$linkID}";
+        $url = "/review_links/{$linkId}";
 
         return $this->HttpRequest( "GET", $url );
     }
@@ -561,10 +490,9 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Get Review Link Items
     */
-    public function getReviewLinkItems( $linkID )
-    {
+    public function getReviewLinkItems( $linkId ) {
 
-        $url = "/review_links/{$linkID}/items";
+        $url = "/review_links/{$linkId}/items";
 
         return $this->HttpRequest( "GET", $url );
     }
@@ -575,13 +503,12 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Add Assets to a Review Link
     */
-    public function addAssetsToReviewLink( $reviewLinkID, $assetIDs )
-    {
+    public function addAssetsToReviewLink( $reviewLinkId, $assetIds ) {
 
-        $url = "/review_links/{$reviewLinkID}/assets";
+        $url = "/review_links/{$reviewLinkId}/assets";
 
         $payload = array(
-            "asset_ids" => $assetIDs
+            "asset_ids" => $assetIds
         );
 
         return $this->HttpRequest( "POST", $url, $payload, true );
@@ -593,8 +520,7 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Search for Assets
     */
-    public function getSearchAssets ( $query = "", $teamID = "", $accountID = "" )
-    {
+    public function getSearchAssets ( $query = "", $teamId = "", $accountId = "" ) {
 
         $url = "/search/assets?";
 
@@ -602,12 +528,12 @@ class FrameIOClient
             $url .= "q=" . $query;
         }
 
-        if( $teamID ) {
-            $url .= "team_id=" . $teamID;
+        if( $teamId ) {
+            $url .= "team_id=" . $teamId;
         }
 
-        if( $accountID ) {
-            $url .= "account_id=" . $accountID;
+        if( $accountId ) {
+            $url .= "account_id=" . $accountId;
         }
 
         return $this->HttpRequest( "post", $url, $payload );
@@ -619,15 +545,14 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Search for Assets
     */
-    public function searchAssets ( $query = "", $teamID = "", $accountID = "", $filter = [] )
-    {
+    public function searchAssets ( $query = "", $teamId = "", $accountId = "", $filter = [] ) {
 
         $url = "/search/assets?";
 
         $payload = array(
             "q"             =>  $query,
-            "team_id"       =>  $teamID,
-            "account_id"    =>  $accountID,
+            "team_id"       =>  $teamId,
+            "account_id"    =>  $accountId,
             "filter"        =>  $filter
         );
 
@@ -640,8 +565,7 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Returns the API base URL
     */
-    public function getHost()
-    {
+    public function getHost() {
         return $this->host;
     }
 
@@ -654,8 +578,7 @@ class FrameIOClient
     |  $asset           Object      The asset object
     |  $file_path       String      The path of the file to upload
     */
-    public function upload( $asset, $file_path )
-    {
+    public function upload( $asset, $file_path ) {
         // Upload file to Frame
         $uploader = new FrameIOUploader( $asset, $file_path );
         return $uploader->upload();
@@ -667,8 +590,7 @@ class FrameIOClient
     |-------------------------------------------------------------------------------
     | Description:    Method for all HTTP requests
     */
-    protected function HttpRequest( $method, $url, $payload = false )
-    {
+    protected function HttpRequest( $method, $url, $payload = false ) {
 
         try {
             $url = $this->host . $url;
