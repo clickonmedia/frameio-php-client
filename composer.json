@@ -12,12 +12,11 @@
     ],
     "minimum-stability": "stable",
     "require": {
-		"guzzlehttp/guzzle": "^6.3",
+		"guzzlehttp/guzzle": "^7.2",
         "vlucas/phpdotenv": ">2.0.0",
         "ocramius/package-versions": "^1.4"
     },
     "require-dev": {
-        "guzzlehttp/guzzle": "^6.3",
         "phpunit/phpunit": "^7",
         "phpdocumentor/phpdocumentor": "2.*"
     },
